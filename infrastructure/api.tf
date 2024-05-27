@@ -28,7 +28,7 @@ resource "aws_apigatewayv2_deployment" "api_deployment" {
   triggers = {
     redeployment = sha1(
       jsonencode([
-        file("api_gateway.tf"),
+        file("api.tf"),
       ])
     )
   }
