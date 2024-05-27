@@ -1,4 +1,4 @@
-use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
+use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 
 async fn function_handler(_event: Request) -> Result<Response<Body>, Error> {
     let message = "Hello, world!";
