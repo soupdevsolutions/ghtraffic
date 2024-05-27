@@ -32,7 +32,7 @@ resource "aws_apigatewayv2_deployment" "api_deployment" {
       ])
     )
   }
-  depends_on = [ aws_apigatewayv2_api.api ]
+  depends_on = [aws_apigatewayv2_api.api]
 }
 
 # HELLO WORLD
