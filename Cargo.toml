@@ -3,6 +3,14 @@ name = "awe"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "awe"
+path = "src/lib.rs"
+
+[[bin]]
+name = "hello_world"
+path = "src/bins/hello_world.rs"
 
 [dependencies]
+lambda_http = "0.11.1"
+tokio = { version = "1", features = ["macros"] }
