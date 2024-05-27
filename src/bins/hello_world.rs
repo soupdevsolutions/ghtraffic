@@ -1,6 +1,6 @@
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 
-async fn function_handler(_event: Request) -> Result<Response<Body>, Error> {
+async fn handler(_event: Request) -> Result<Response<Body>, Error> {
     let message = "Hello, world!";
 
     let resp = Response::builder()
@@ -14,5 +14,5 @@ async fn function_handler(_event: Request) -> Result<Response<Body>, Error> {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     tracing::init_default_subscriber();
-    run(service_fn(function_handler)).await
+    run(service_fn(handler)).await
 }
