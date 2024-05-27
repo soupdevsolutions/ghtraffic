@@ -21,6 +21,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - uses: actions/checkout@v2
+        - uses: opentofu/setup-opentofu@v1
+          with:
+            tofu_version: 1.6.0
         - name: Install Rust
           uses: actions-rs/toolchain@v1
           with:
