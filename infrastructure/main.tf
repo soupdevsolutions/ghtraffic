@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "awe-tf-state"
+    bucket = "ghstats-tf-state"
     key    = "terraform.tfstate"
     region = "eu-west-1"
   }

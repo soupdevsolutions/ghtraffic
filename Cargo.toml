@@ -1,10 +1,10 @@
 [package]
-name = "awe"
+name = "ghstats"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "awe"
+name = "ghstats"
 path = "src/lib.rs"
 
 [[bin]]
