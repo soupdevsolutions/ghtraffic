@@ -35,27 +35,27 @@ resource "aws_apigatewayv2_deployment" "api_deployment" {
   depends_on = [aws_apigatewayv2_api.api]
 }
 
-# HELLO WORLD
-resource "aws_apigatewayv2_integration" "hello_world_integration" {
+# RENDER WEBSITE 
+resource "aws_apigatewayv2_integration" "render_website_integration" {
   api_id           = aws_apigatewayv2_api.api.id
   integration_type = "AWS_PROXY"
 
   connection_type    = "INTERNET"
-  description        = "Hello World"
+  description        = "Render website"
   integration_method = "POST"
-  integration_uri    = aws_lambda_function.hello_world_lambda.invoke_arn
+  integration_uri    = aws_lambda_function.render_website_lambda.invoke_arn
 
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "hello_world_route" {
+resource "aws_apigatewayv2_route" "render_website_route" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /hello"
-  target    = "integrations/${aws_apigatewayv2_integration.hello_world_integration.id}"
+  route_key = "GET /web"
+  target    = "integrations/${aws_apigatewayv2_integration.render_website_integration.id}"
 }
 
-resource "aws_lambda_permission" "hello_world_api_permission" {
-  function_name = aws_lambda_function.hello_world_lambda.function_name
+resource "aws_lambda_permission" "render_website_api_permission" {
+  function_name = aws_lambda_function.render_website_lambda.function_name
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"

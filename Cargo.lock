@@ -232,7 +232,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ghstats"
+name = "ghtraffic"
 version = "0.1.0"
 dependencies = [
  "lambda_http",

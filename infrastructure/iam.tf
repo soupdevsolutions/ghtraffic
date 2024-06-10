@@ -1,9 +1,9 @@
-# HELLO WORLD LAMBDA ROLE/POLICIES
-resource "aws_iam_role" "hello_world" {
-  assume_role_policy = data.aws_iam_policy_document.hello_world_assume_policy.json
+# RENDER WEBSITE LAMBDA ROLE/POLICIES
+resource "aws_iam_role" "render_website" {
+  assume_role_policy = data.aws_iam_policy_document.render_website_assume_policy.json
 }
 
-data "aws_iam_policy_document" "hello_world_assume_policy" {
+data "aws_iam_policy_document" "render_website_assume_policy" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "hello_world_assume_policy" {
   }
 }
 
-data "aws_iam_policy_document" "hello_world_policy_document" {
+data "aws_iam_policy_document" "render_website_policy_document" {
   statement {
     actions = [
       "logs:CreateLogGroup",
@@ -28,12 +28,12 @@ data "aws_iam_policy_document" "hello_world_policy_document" {
   }
 }
 
-resource "aws_iam_policy" "hello_world_policy" {
-  name   = "hello_world_policy"
-  policy = data.aws_iam_policy_document.hello_world_policy_document.json
+resource "aws_iam_policy" "render_website_policy" {
+  name   = "render_website_policy"
+  policy = data.aws_iam_policy_document.render_website_policy_document.json
 }
 
-resource "aws_iam_role_policy_attachment" "hello_world_policy_attachment" {
-  role       = aws_iam_role.hello_world.name
-  policy_arn = aws_iam_policy.hello_world_policy.arn
+resource "aws_iam_role_policy_attachment" "render_website_policy_attachment" {
+  role       = aws_iam_role.render_website.name
+  policy_arn = aws_iam_policy.render_website_policy.arn
 }

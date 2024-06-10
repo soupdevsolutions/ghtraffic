@@ -1,15 +1,15 @@
 [package]
-name = "ghstats"
+name = "ghtraffic"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "ghstats"
+name = "ghtraffic"
 path = "src/lib.rs"
 
 [[bin]]
-name = "hello_world"
-path = "src/bins/hello_world.rs"
+name = "render_website"
+path = "src/bins/render_website.rs"
 
 [dependencies]
 lambda_http = "0.11.1"

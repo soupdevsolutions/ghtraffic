@@ -1,1 +1,1 @@
-# ghstats
+# ghtraffic
