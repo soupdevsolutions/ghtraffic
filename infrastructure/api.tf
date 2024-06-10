@@ -1,7 +1,7 @@
 # GENERIC RESOURCES
 resource "aws_apigatewayv2_api" "api" {
-  name          = "rust-lambda-starter API"
-  description   = "rust-lambda-starter API"
+  name          = "GhTraffic API"
+  description   = "GhTraffic API"
   protocol_type = "HTTP"
 
   cors_configuration {
@@ -19,7 +19,7 @@ resource "aws_apigatewayv2_stage" "api_stage" {
 
 resource "aws_apigatewayv2_deployment" "api_deployment" {
   api_id      = aws_apigatewayv2_api.api.id
-  description = "rust-lambda-starter API deployment"
+  description = "GhTraffic API"
 
   lifecycle {
     create_before_destroy = true
