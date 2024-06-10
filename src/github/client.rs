@@ -1,5 +1,8 @@
+use lambda_http::tracing;
+
 use super::{AccessTokenResponse, GithubError};
 
+#[derive(Debug)]
 pub struct GithubClient {
     client: reqwest::Client,
 }
@@ -11,9 +14,10 @@ impl GithubClient {
         }
     }
 
+    #[tracing::instrument]
     pub async fn exchange_code(
         &self,
-        code: impl Into<String>,
+        code: String,
     ) -> Result<AccessTokenResponse, GithubError> {
         let client_id = std::env::var("GITHUB_CLIENT_ID")?;
         let client_secret = std::env::var("GITHUB_CLIENT_SECRET")?;

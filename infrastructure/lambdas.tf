@@ -1,6 +1,6 @@
 # RENDER WEBSITE
 resource "aws_lambda_function" "render_website_lambda" {
-  function_name = "InitiatePayment"
+  function_name = "RenderWebsite"
 
   filename         = "data/lambdas/render_website.zip"
   source_code_hash = filebase64sha256("data/lambdas/render_website.zip")
