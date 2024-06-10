@@ -32,7 +32,10 @@ resource "aws_apigatewayv2_deployment" "api_deployment" {
       ])
     )
   }
-  depends_on = [aws_apigatewayv2_api.api]
+  depends_on = [
+    aws_apigatewayv2_api.api,
+    aws_apigatewayv2_route.render_website_route
+  ]
 }
 
 # RENDER WEBSITE 
