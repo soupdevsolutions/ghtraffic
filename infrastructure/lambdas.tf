@@ -9,4 +9,10 @@ resource "aws_lambda_function" "render_website_lambda" {
   runtime = "provided.al2023"
 
   role = aws_iam_role.render_website.arn
+
+  environment {
+    variables = {
+      GH_CLIENT_ID = var.GH_CLIENT_ID
+    }
+  }
 }

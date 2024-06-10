@@ -12,3 +12,8 @@ variable "AWS_ACCESS_KEY_ID" {
 variable "AWS_SECRET_ACCESS_KEY" {
   type = string
 }
+
+variable "GH_CLIENT_ID" {
+  type = string
+  default = "Iv23li8Nf3Z6zPft5P8O"
+}
