@@ -11,7 +11,10 @@ impl GithubClient {
         }
     }
 
-    pub async fn exchange_code(&self, code: impl Into<String>) -> Result<AccessTokenResponse, GithubError> {
+    pub async fn exchange_code(
+        &self,
+        code: impl Into<String>,
+    ) -> Result<AccessTokenResponse, GithubError> {
         let client_id = std::env::var("GITHUB_CLIENT_ID")?;
         let client_secret = std::env::var("GITHUB_CLIENT_SECRET")?;
 
@@ -22,7 +25,8 @@ impl GithubClient {
             ("code", code.into()),
         ];
 
-        let response = self.client
+        let response = self
+            .client
             .post(url)
             .form(&params)
             .header("Accept", "application/json")
@@ -32,5 +36,11 @@ impl GithubClient {
             .await?;
 
         Ok(response)
+    }
+}
+
+impl Default for GithubClient {
+    fn default() -> Self {
+        Self::new()
     }
 }
