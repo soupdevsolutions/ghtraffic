@@ -15,10 +15,7 @@ impl GithubClient {
     }
 
     #[tracing::instrument]
-    pub async fn exchange_code(
-        &self,
-        code: String,
-    ) -> Result<AccessTokenResponse, GithubError> {
+    pub async fn exchange_code(&self, code: String) -> Result<AccessTokenResponse, GithubError> {
         let client_id = std::env::var("GITHUB_CLIENT_ID")?;
         let client_secret = std::env::var("GITHUB_CLIENT_SECRET")?;
 
@@ -26,7 +23,7 @@ impl GithubClient {
         let params = [
             ("client_id", client_id),
             ("client_secret", client_secret),
-            ("code", code.into()),
+            ("code", code),
         ];
 
         let response = self
