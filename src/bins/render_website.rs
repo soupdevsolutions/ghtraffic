@@ -7,7 +7,7 @@ async fn handler(_event: Request) -> Result<Response<Body>, Error> {
     let data = format!(r#"
     <html>
         <head>
-            <title>soup.dev - ghTraffic</title>
+            <title>ghTraffix by soup.dev</title>
         </head>
         <body>
             <h1>Welcome to ghTraffic by soup.dev</h1>
