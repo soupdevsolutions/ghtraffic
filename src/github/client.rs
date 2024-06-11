@@ -34,12 +34,17 @@ impl GithubClient {
             .header("Accept", "application/json")
             .send()
             .await?;
-        tracing::info!("Response: {:?}", response);
+        tracing::info!("Response body: {:?}", response.text().await?);
 
-        let response = response.json::<AccessTokenResponse>().await?;
-        tracing::info!("Deserialized Response: {:?}", response);
 
-        Ok(response)
+        // let response = response.json::<AccessTokenResponse>().await?;
+        // tracing::info!("Deserialized Response: {:?}", response);
+
+        Ok(AccessTokenResponse{
+            access_token: "test".to_string(),
+            scope: "test".to_string(),
+            token_type: "test".to_string(),
+        })
     }
 }
 
