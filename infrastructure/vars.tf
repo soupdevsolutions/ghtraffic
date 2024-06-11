@@ -17,3 +17,7 @@ variable "GH_CLIENT_ID" {
   type    = string
   default = "Iv23li8Nf3Z6zPft5P8O"
 }
+
+variable "GITHUB_CLIENT_SECRET" {
+  type    = string
+}

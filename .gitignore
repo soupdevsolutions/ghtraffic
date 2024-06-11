@@ -1,1 +1,7 @@
+# Cargo/Rust
 /target
+
+# Terraform 
+*.terraform
+*.hcl
+./infrastructure/data/
