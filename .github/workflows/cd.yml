@@ -42,6 +42,6 @@ jobs:
         - name: Plan Tofu
           run: tofu -chdir=infrastructure plan
         - name: Apply Tofu
-          with:
+          env:
               TF_VAR_GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
           run: tofu -chdir=infrastructure apply -auto-approve
