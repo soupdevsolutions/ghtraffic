@@ -41,9 +41,9 @@ jobs:
           run: tofu -chdir=infrastructure init
         - name: Plan Tofu
           env:
-              TF_VAR_GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+              TF_VAR_GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           run: tofu -chdir=infrastructure plan
         - name: Apply Tofu
           env:
-              TF_VAR_GITHUB_CLIENT_SECRET: ${{ secrets.GITHUB_CLIENT_SECRET }}
+              TF_VAR_GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
           run: tofu -chdir=infrastructure apply -auto-approve

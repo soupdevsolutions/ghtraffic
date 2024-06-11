@@ -36,11 +36,10 @@ impl GithubClient {
             .await?;
         tracing::info!("Response body: {:?}", response.text().await?);
 
-
         // let response = response.json::<AccessTokenResponse>().await?;
         // tracing::info!("Deserialized Response: {:?}", response);
 
-        Ok(AccessTokenResponse{
+        Ok(AccessTokenResponse {
             access_token: "test".to_string(),
             scope: "test".to_string(),
             token_type: "test".to_string(),
