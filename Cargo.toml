@@ -14,7 +14,8 @@ path = "src/bins/render_website.rs"
 [dependencies]
 anyhow = "1.0.86"
 lambda_http = "0.11.1"
-reqwest = { version = "0.12.4", features = ["json", "native-tls-vendored"] }
+openssl = { version = "0.10.64", features = ["vendored"] }
+reqwest = { version = "0.12.4", features = ["json"] }
 serde = { version = "1.0.203", features = ["derive"] }
 thiserror = "1.0.61"
 tokio = { version = "1", features = ["macros"] }

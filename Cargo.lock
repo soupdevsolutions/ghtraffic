@@ -320,6 +320,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "lambda_http",
+ "openssl",
  "reqwest",
  "serde",
  "thiserror",
