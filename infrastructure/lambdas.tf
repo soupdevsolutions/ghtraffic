@@ -12,7 +12,8 @@ resource "aws_lambda_function" "render_website_lambda" {
 
   environment {
     variables = {
-      GH_CLIENT_ID = var.GH_CLIENT_ID
+      GITHUB_CLIENT_ID = var.GITHUB_CLIENT_ID
+      GITHUB_CLIENT_SECRET = var.GITHUB_CLIENT_SECRET
     }
   }
 }

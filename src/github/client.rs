@@ -1,3 +1,4 @@
+use crate::env::{GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET};
 use lambda_http::tracing;
 
 use super::{AccessTokenResponse, GithubError};
@@ -16,8 +17,8 @@ impl GithubClient {
 
     #[tracing::instrument]
     pub async fn exchange_code(&self, code: String) -> Result<AccessTokenResponse, GithubError> {
-        let client_id = std::env::var("GITHUB_CLIENT_ID")?;
-        let client_secret = std::env::var("GITHUB_CLIENT_SECRET")?;
+        let client_id = std::env::var(GITHUB_CLIENT_ID)?;
+        let client_secret = std::env::var(GITHUB_CLIENT_SECRET)?;
 
         let url = String::from("https://github.com/login/oauth/access_token");
         let params = [

@@ -1,10 +1,11 @@
+use ghtraffic::env::GITHUB_CLIENT_ID;
 use ghtraffic::github::GithubClient;
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
 #[tracing::instrument]
 async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
-    let client_id = std::env::var("GH_CLIENT_ID")?;
+    let client_id = std::env::var(GITHUB_CLIENT_ID)?;
     let code = event
         .query_string_parameters()
         .first("code")
