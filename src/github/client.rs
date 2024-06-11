@@ -33,17 +33,11 @@ impl GithubClient {
             .form(&params)
             .header("Accept", "application/json")
             .send()
+            .await?
+            .json::<AccessTokenResponse>()
             .await?;
-        tracing::info!("Response body: {:?}", response.text().await?);
 
-        // let response = response.json::<AccessTokenResponse>().await?;
-        // tracing::info!("Deserialized Response: {:?}", response);
-
-        Ok(AccessTokenResponse {
-            access_token: "test".to_string(),
-            scope: "test".to_string(),
-            token_type: "test".to_string(),
-        })
+        Ok(response)
     }
 }
 
