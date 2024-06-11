@@ -32,9 +32,11 @@ impl GithubClient {
             .form(&params)
             .header("Accept", "application/json")
             .send()
-            .await?
-            .json::<AccessTokenResponse>()
             .await?;
+        tracing::info!("Response: {:?}", response);
+
+        let response = response.json::<AccessTokenResponse>().await?;
+        tracing::info!("Deserialized Response: {:?}", response);
 
         Ok(response)
     }

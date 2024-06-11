@@ -5,12 +5,10 @@ use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Re
 async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
     let client_id = std::env::var("GH_CLIENT_ID")?;
-    tracing::info!("Client ID: {}", client_id);
     let code = event
         .query_string_parameters()
         .first("code")
         .map(|v| v.to_string());
-    tracing::info!("Code: {:?}", code);
 
     let mut body = format!(
         r#"
