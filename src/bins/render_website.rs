@@ -1,6 +1,7 @@
 use ghtraffic::github::GithubClient;
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
+#[tracing::instrument]
 async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
     let client_id = std::env::var("GH_CLIENT_ID").expect("GH_CLIENT_ID is not set");
     let code = event
