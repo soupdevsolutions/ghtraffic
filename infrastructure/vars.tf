@@ -19,5 +19,5 @@ variable "GH_CLIENT_ID" {
 }
 
 variable "GITHUB_CLIENT_SECRET" {
-  type    = string
+  type = string
 }
