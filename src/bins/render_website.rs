@@ -38,7 +38,7 @@ async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
         r#"
     <html>
         <head>
-            <title>ghTraffix by soup.dev</title>
+            <title>ghTraffic by soup.dev</title>
         </head>
         {body}
     </html>
