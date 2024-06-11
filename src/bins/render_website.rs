@@ -1,7 +1,7 @@
-use ghtraffic::github::GithubClient;
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
-async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
+async fn handler(_event: Request) -> anyhow::Result<Response<Body>> {
+    /*
     let client_id = std::env::var("GH_CLIENT_ID").expect("GH_CLIENT_ID is not set");
     let code = event
         .query_string_parameters()
@@ -30,14 +30,14 @@ async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
             response.access_token
         );
     }
-
+*/
     let data = format!(
         r#"
     <html>
         <head>
             <title>ghTraffix by soup.dev</title>
         </head>
-        {body}
+        <body>Test</body>
     </html>
     "#
     );
