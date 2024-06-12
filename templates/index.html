@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ghTraffic - soup.dev</title>
+    <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        clifford: '#da373d',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="mx-auto bg-slate-100 font-mono">
+    <nav class="bg-gray-300 mb-2 p-2 pl-10">
+        <h1 class="text-3xl"><a href="/">ghTraffic</a></h1>
+    </nav>
+    <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/web"></div>
+</body>
+
+</html>
