@@ -49,5 +49,5 @@ jobs:
           run: tofu -chdir=infrastructure apply -auto-approve
         - name: Upload HTMX templates
           run: |
-              bucket_name=$(tofu -chdir=infrastructure output templates_bucket_name)
+              bucket_name=$(tofu -chdir=infrastructure output -raw templates_bucket_name)
               aws s3 cp src/templates/ s3://$bucket_name/ 
