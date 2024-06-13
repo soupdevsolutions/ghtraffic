@@ -24,6 +24,7 @@ jobs:
         - uses: opentofu/setup-opentofu@v1
           with:
             tofu_version: 1.6.0
+            tofu_wrapper: false
         - name: Install Rust
           uses: actions-rs/toolchain@v1
           with:
@@ -50,4 +51,4 @@ jobs:
         - name: Upload HTMX templates
           run: |
               bucket_name=$(tofu -chdir=infrastructure output -raw templates_bucket_name)
-              aws s3 cp src/templates/ s3://$bucket_name/ 
+              aws s3 cp ./templates/ s3://$bucket_name/
