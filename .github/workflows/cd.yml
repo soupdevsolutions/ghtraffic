@@ -51,4 +51,4 @@ jobs:
         - name: Upload HTMX templates
           run: |
               bucket_name=$(tofu -chdir=infrastructure output -raw templates_bucket_name)
-              aws s3 cp ./templates/ s3://$bucket_name/
+              aws s3 sync ./templates s3://$bucket_name 
