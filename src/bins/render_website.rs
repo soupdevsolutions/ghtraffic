@@ -1,28 +1,26 @@
-use ghtraffic::env::GITHUB_CLIENT_ID;
 use ghtraffic::github::GithubClient;
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
 #[tracing::instrument]
-async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
+async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
-    let client_id = std::env::var(GITHUB_CLIENT_ID)?;
     let code = event
         .query_string_parameters()
         .first("code")
         .map(|v| v.to_string());
 
+    let login_uri = github_client.get_login_uri()?;
     let mut body = format!(
         r#"
         <body>
             <h1>Welcome to ghTraffic by soup.dev</h1>
-            <a href="https://github.com/login/oauth/authorize?client_id={client_id}">Login with GitHub</a>
+            <a href={login_uri}>Login with GitHub</a>
         </body>
     "#
     );
 
     if let Some(code) = code {
-        let client = GithubClient::new();
-        let response = client.exchange_code(code).await?;
+        let response = github_client.exchange_code(code).await?;
         body = format!(
             r#"
             <body>
@@ -56,5 +54,7 @@ async fn handler(event: Request) -> anyhow::Result<Response<Body>> {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     tracing::init_default_subscriber();
-    run(service_fn(handler)).await
+
+    let github_client = GithubClient::new();
+    run(service_fn(|request| handler(&github_client, request))).await
 }

@@ -16,6 +16,14 @@ impl GithubClient {
     }
 
     #[tracing::instrument]
+    pub fn get_login_uri(&self) -> Result<String, GithubError> {
+        let client_id = std::env::var(GITHUB_CLIENT_ID)?;
+
+        let url = format!("https://github.com/login/oauth/authorize?client_id={client_id}");
+        Ok(url)
+    }
+
+    #[tracing::instrument]
     pub async fn exchange_code(&self, code: String) -> Result<AccessTokenResponse, GithubError> {
         let client_id = std::env::var(GITHUB_CLIENT_ID)?;
         let client_secret = std::env::var(GITHUB_CLIENT_SECRET)?;
