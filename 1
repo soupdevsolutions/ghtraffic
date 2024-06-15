@@ -1,0 +1,7 @@
+use thiserror::Error;
+
+#[derive(Debug, Error)]
+pub enum FileManagerError {
+    #[error("AWS error: {0}")]
+    AwsError(#[from] aws_sdk_s3::Error),
+}
