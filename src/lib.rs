@@ -1,3 +1,4 @@
 pub mod env;
-pub mod file_management;
+pub mod files;
 pub mod github;
+pub mod templates;

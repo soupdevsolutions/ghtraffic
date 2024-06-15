@@ -1,4 +1,4 @@
-use super::{FileManager, FileManagerError};
+use super::{FileManagerError};
 
 pub struct S3FileManager {
     bucket: String,
@@ -12,10 +12,8 @@ impl S3FileManager {
 
         S3FileManager { bucket, client }
     }
-}
 
-impl FileManager for S3FileManager {
-    async fn get_file_content(&self, key: impl Into<String>) -> Result<String, FileManagerError> {
+    pub async fn get_file_content(&self, key: impl Into<String>) -> Result<String, FileManagerError> {
         let key = key.into();
         let response = self
             .client
