@@ -8,7 +8,6 @@ pub struct IndexTemplate();
 #[template(path = "welcome.html")]
 pub struct WelcomeTemplate {
     pub login_uri: String,
-    pub client_id: String,
 }
 
 #[derive(Template)]

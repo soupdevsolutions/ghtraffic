@@ -24,7 +24,6 @@ pub fn render_welcome_page(github_client: &GithubClient) -> anyhow::Result<Strin
 
     let template = WelcomeTemplate {
         login_uri,
-        client_id,
     };
     Ok(template.render()?)
 }
