@@ -28,7 +28,7 @@ resource "aws_lambda_function" "get_github_data_lambda" {
   handler = "handler"
   runtime = "provided.al2023"
 
-  role = aws_iam_role.get_githuv_data.arn
+  role = aws_iam_role.get_github_data.arn
 
   environment {
     variables = {
