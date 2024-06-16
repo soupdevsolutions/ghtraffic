@@ -11,8 +11,13 @@ path = "src/lib.rs"
 name = "render_website"
 path = "src/bins/render_website.rs"
 
+[[bin]]
+name = "get_github_data"
+path = "src/bins/get_github_data.rs"
+
 [dependencies]
 anyhow = "1.0.86"
+askama = "0.12.1"
 aws-config = { version = "1.5.1", features = ["behavior-version-latest"] }
 aws-sdk-s3 = "1.36.0" 
 aws-smithy-runtime-api = "1.7.0"

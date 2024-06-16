@@ -1,53 +1,20 @@
-use ghtraffic::github::GithubClient;
-use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
+use askama::Template;
+use ghtraffic::{github::GithubClient, templates::IndexTemplate};
+use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
-    let code = event
-        .query_string_parameters()
-        .first("code")
-        .map(|v| v.to_string());
 
-    let login_uri = github_client.get_login_uri()?;
-    let mut body = format!(
-        r#"
-        <body>
-            <h1>Welcome to ghTraffic by soup.dev</h1>
-            <a href={login_uri}>Login with GitHub</a>
-        </body>
-    "#
-    );
+    let template = IndexTemplate();
 
-    if let Some(code) = code {
-        let response = github_client.exchange_code(code).await?;
-        body = format!(
-            r#"
-            <body>
-                <h1>Successfully authenticated with GitHub</h1>
-                <p>Access Token: {}</p>
-            </body> 
-        "#,
-            response.access_token
-        );
-    }
-
-    let data = format!(
-        r#"
-    <html>
-        <head>
-            <title>ghTraffic by soup.dev</title>
-        </head>
-        {body}
-    </html>
-    "#
-    );
-
+    let data = template.render()?;
     let resp = Response::builder()
         .status(200)
         .header("content-type", "text/html")
         .body(data.into())
         .map_err(Box::new)?;
+
     Ok(resp)
 }
 

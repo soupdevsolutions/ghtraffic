@@ -1,5 +1,6 @@
 use super::FileManagerError;
 
+#[derive(Debug)]
 pub struct S3FileManager {
     bucket: String,
     client: aws_sdk_s3::Client,
