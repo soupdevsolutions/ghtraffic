@@ -5,10 +5,12 @@ use ghtraffic::{
 };
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
+#[tracing::instrument]
 pub async fn render_authenticated_page(
     github_client: &GithubClient,
     code: String,
 ) -> anyhow::Result<String> {
+    tracing::info!("Code: {:?}", code);
     let token = github_client.exchange_code(code).await?;
 
     let repositories = github_client
