@@ -11,11 +11,12 @@ pub async fn render_authenticated_page(
 ) -> anyhow::Result<String> {
     let token = github_client.exchange_code(code).await?;
 
-    let template = AuthenticatedTemplate {
-        repositories: github_client
-            .get_user_repositories(token.access_token)
-            .await?,
-    };
+    let repositories = github_client
+        .get_user_repositories(token.access_token)
+        .await?;
+    tracing::info!("Repositories: {:?}", repositories);
+
+    let template = AuthenticatedTemplate { repositories };
     Ok(template.render()?)
 }
 
