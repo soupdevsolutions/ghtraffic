@@ -1,12 +1,16 @@
 use askama::Template;
 use ghtraffic::{github::GithubClient, templates::IndexTemplate};
-use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
+use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
+    let code = event
+        .query_string_parameters()
+        .first("code")
+        .map(String::from);
 
-    let template = IndexTemplate();
+    let template = IndexTemplate { code };
 
     let data = template.render()?;
     let resp = Response::builder()

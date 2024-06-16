@@ -2,7 +2,9 @@ use askama::Template;
 
 #[derive(Template)]
 #[template(path = "index.html")]
-pub struct IndexTemplate();
+pub struct IndexTemplate {
+    pub code: Option<String>,
+}
 
 #[derive(Template)]
 #[template(path = "welcome.html")]
