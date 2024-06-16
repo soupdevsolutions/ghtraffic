@@ -20,11 +20,8 @@ pub async fn render_authenticated_page(
 #[tracing::instrument]
 pub fn render_welcome_page(github_client: &GithubClient) -> anyhow::Result<String> {
     let login_uri = github_client.get_login_uri()?;
-    let client_id = std::env::var("GITHUB_CLIENT_ID")?;
 
-    let template = WelcomeTemplate {
-        login_uri,
-    };
+    let template = WelcomeTemplate { login_uri };
     Ok(template.render()?)
 }
 
