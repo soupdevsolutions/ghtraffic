@@ -1,5 +1,5 @@
 use crate::env::{GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET};
-use lambda_http::tracing;
+use lambda_http::tracing::{self, warn};
 
 use super::{AccessTokenResponse, GithubError, UserRepository};
 
@@ -62,8 +62,9 @@ impl GithubClient {
             .header("X-GitHub-Api-Version", "2022-11-28")
             .send()
             .await?;
+        tracing::info!("Response: {:?}", response.text().await?);
 
-        let response = response.json::<Vec<UserRepository>>().await?;
+        let response = vec![];
         Ok(response)
     }
 }
