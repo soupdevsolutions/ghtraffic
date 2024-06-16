@@ -63,9 +63,8 @@ impl GithubClient {
             .header("User-Agent", "ghtraffic")
             .send()
             .await?;
-        tracing::info!("Response: {:?}", response.text().await?);
 
-        let response = vec![];
+        let response = response.json::<Vec<UserRepository>>().await?;
         Ok(response)
     }
 }
