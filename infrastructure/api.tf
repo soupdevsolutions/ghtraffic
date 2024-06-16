@@ -18,26 +18,6 @@ resource "aws_apigatewayv2_stage" "api_stage" {
   auto_deploy   = true
 }
 
-resource "aws_apigatewayv2_deployment" "api_deployment" {
-  api_id      = aws_apigatewayv2_api.api.id
-  description = "GhTraffic API"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  triggers = {
-    redeployment = sha1(
-      jsonencode([
-        file("api.tf"),
-      ])
-    )
-  }
-  depends_on = [
-    aws_apigatewayv2_api.api,
-    aws_apigatewayv2_route.render_website_route
-  ]
-}
 
 # RENDER WEBSITE 
 resource "aws_apigatewayv2_integration" "render_website_integration" {
