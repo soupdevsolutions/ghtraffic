@@ -1,7 +1,7 @@
 use crate::env::{GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET};
 use lambda_http::tracing;
 
-use super::{AccessTokenResponse, GithubError};
+use super::{AccessTokenResponse, GithubError, UserRepository};
 
 #[derive(Debug)]
 pub struct GithubClient {
@@ -45,6 +45,25 @@ impl GithubClient {
             .json::<AccessTokenResponse>()
             .await?;
 
+        Ok(response)
+    }
+
+    #[tracing::instrument(skip(token))]
+    pub async fn get_user_repositories(
+        &self,
+        token: String,
+    ) -> Result<Vec<UserRepository>, GithubError> {
+        let url = String::from("https://api.github.com/user/repos");
+        let response = self
+            .client
+            .get(url)
+            .header("Authorization", format!("Bearer {}", token))
+            .header("Accept", "application/vnd.github+json")
+            .header("X-GitHub-Api-Version", "2022-11-28")
+            .send()
+            .await?;
+
+        let response = response.json::<Vec<UserRepository>>().await?;
         Ok(response)
     }
 }

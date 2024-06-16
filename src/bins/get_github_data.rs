@@ -12,7 +12,9 @@ pub async fn render_authenticated_page(
     let token = github_client.exchange_code(code).await?;
 
     let template = AuthenticatedTemplate {
-        token: token.access_token,
+        repositories: github_client
+            .get_user_repositories(token.access_token)
+            .await?,
     };
     Ok(template.render()?)
 }

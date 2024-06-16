@@ -6,3 +6,9 @@ pub struct AccessTokenResponse {
     pub token_type: String,
     pub scope: String,
 }
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct UserRepository {
+    pub id: u64,
+    pub name: String,
+}
