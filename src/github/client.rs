@@ -26,9 +26,7 @@ impl GithubClient {
     #[tracing::instrument]
     pub async fn exchange_code(&self, code: String) -> Result<AccessTokenResponse, GithubError> {
         let client_id = std::env::var(GITHUB_CLIENT_ID)?;
-        tracing::info!("Client ID: {:?}", client_id);
         let client_secret = std::env::var(GITHUB_CLIENT_SECRET)?;
-        tracing::info!("Client Secret: {:?}", client_secret);
 
         let url = String::from("https://github.com/login/oauth/access_token");
         let params = [
@@ -46,7 +44,6 @@ impl GithubClient {
             .await?
             .json::<AccessTokenResponse>()
             .await?;
-        tracing::info!("Response: {:?}", response);
 
         Ok(response)
     }
@@ -63,6 +60,7 @@ impl GithubClient {
             .header("Authorization", format!("Bearer {}", token))
             .header("Accept", "application/vnd.github+json")
             .header("X-GitHub-Api-Version", "2022-11-28")
+            .header("User-Agent", "ghtraffic")
             .send()
             .await?;
         tracing::info!("Response: {:?}", response.text().await?);
