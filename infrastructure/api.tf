@@ -14,7 +14,6 @@ resource "aws_apigatewayv2_api" "api" {
 resource "aws_apigatewayv2_stage" "api_stage" {
   api_id        = aws_apigatewayv2_api.api.id
   name          = "$default"
-  deployment_id = aws_apigatewayv2_deployment.api_deployment.id
   auto_deploy   = true
 }
 
