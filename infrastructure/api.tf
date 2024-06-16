@@ -80,7 +80,7 @@ resource "aws_apigatewayv2_integration" "get_github_data_integration" {
 
 resource "aws_apigatewayv2_route" "get_github_data_route" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /web"
+  route_key = "GET /github"
   target    = "integrations/${aws_apigatewayv2_integration.get_github_data_integration.id}"
 }
 
