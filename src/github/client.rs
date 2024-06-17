@@ -66,6 +66,7 @@ impl GithubClient {
             .query(&["visibility", "public"])
             .send()
             .await?;
+        tracing::info!("Response: {:?}", response);
 
         let mut response = response.json::<Vec<UserRepository>>().await?;
         response.sort_by_key(|repo| repo.owner.login.clone());
