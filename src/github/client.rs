@@ -63,7 +63,7 @@ impl GithubClient {
             .header("X-GitHub-Api-Version", "2022-11-28")
             .header("User-Agent", "ghtraffic")
             .query(&[("per_page", 100)])
-            .query(&["visibility", "public"])
+            .query(&[("visibility", "public")])
             .send()
             .await?;
         tracing::info!("Response: {:?}", response);
