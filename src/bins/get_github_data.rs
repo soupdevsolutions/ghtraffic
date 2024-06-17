@@ -12,6 +12,7 @@ pub async fn render_authenticated_page(
 ) -> anyhow::Result<String> {
     tracing::info!("Code: {:?}", code);
     let token = github_client.exchange_code(code).await?;
+    tracing::info!("Token: {:?}", token);
 
     let repositories = github_client
         .get_user_repositories(token.access_token)
