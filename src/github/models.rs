@@ -7,8 +7,15 @@ pub struct AccessTokenResponse {
     pub scope: String,
 }
 
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct UserRepositoryOwner {
+    pub login: String,
+}
+
 #[derive(Deserialize, Serialize, Debug)]
 pub struct UserRepository {
     pub id: u64,
-    pub name: String,
+    pub full_name: String,
+    pub owner: UserRepositoryOwner,
 }

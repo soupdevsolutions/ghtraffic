@@ -54,6 +54,7 @@ impl GithubClient {
         token: String,
     ) -> Result<Vec<UserRepository>, GithubError> {
         let url = String::from("https://api.github.com/user/repos");
+
         let response = self
             .client
             .get(url)
@@ -61,10 +62,13 @@ impl GithubClient {
             .header("Accept", "application/vnd.github+json")
             .header("X-GitHub-Api-Version", "2022-11-28")
             .header("User-Agent", "ghtraffic")
+            .query(&[("per_page", 100)])
+            .query(&["visibility", "public"])
             .send()
             .await?;
 
-        let response = response.json::<Vec<UserRepository>>().await?;
+        let mut response = response.json::<Vec<UserRepository>>().await?;
+        response.sort_by_key(|repo| repo.owner.login.clone());
         Ok(response)
     }
 }
