@@ -1,6 +1,12 @@
 <h2> Your repositories: </h2>
-<ul>
-{% for repo in repositories %}
-    <li>{{ repo.full_name }}</li>
-{% endfor %}
-</ul>
+<div class="columns-2">
+    <ul>
+        {% for repo in repositories %}
+            <li hx-trigger="click" hx-get="/repo?id={{ repo.id }}" hx-target="repo_info">{{ repo.full_name }}</li>
+        {% endfor %}
+    </ul>
+    <div class="bg-gray-400">
+        <h2> {{ repositories[0].full_name }} traffic: </h2>
+        <div id="repo_info" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repo?id={{ repositories[0].id }}"></div>
+    </div>
+</div>

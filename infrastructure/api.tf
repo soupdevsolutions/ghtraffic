@@ -45,27 +45,54 @@ resource "aws_lambda_permission" "render_website_api_permission" {
 }
 
 
-# GET GITHUB DATA
-resource "aws_apigatewayv2_integration" "get_github_data_integration" {
+# GET REPOSITORIES DATA
+resource "aws_apigatewayv2_integration" "get_repositories_data_integration" {
   api_id           = aws_apigatewayv2_api.api.id
   integration_type = "AWS_PROXY"
 
   connection_type    = "INTERNET"
-  description        = "Get GitHub data"
+  description        = "Get repositories data"
   integration_method = "POST"
-  integration_uri    = aws_lambda_function.get_github_data_lambda.invoke_arn
+  integration_uri    = aws_lambda_function.get_repositories_data_lambda.invoke_arn
 
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "get_github_data_route" {
+resource "aws_apigatewayv2_route" "get_repositories_data_route" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /github"
-  target    = "integrations/${aws_apigatewayv2_integration.get_github_data_integration.id}"
+  route_key = "GET /repos"
+  target    = "integrations/${aws_apigatewayv2_integration.get_repositories_data_integration.id}"
 }
 
-resource "aws_lambda_permission" "get_github_data_api_permission" {
-  function_name = aws_lambda_function.get_github_data_lambda.function_name
+resource "aws_lambda_permission" "get_repositories_data_api_permission" {
+  function_name = aws_lambda_function.get_repositories_data_lambda.function_name
+  action        = "lambda:InvokeFunction"
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"
+}
+
+
+# GET REPOSITORY DATA
+resource "aws_apigatewayv2_integration" "get_repository_data_integration" {
+  api_id           = aws_apigatewayv2_api.api.id
+  integration_type = "AWS_PROXY"
+
+  connection_type    = "INTERNET"
+  description        = "Get repository data"
+  integration_method = "POST"
+  integration_uri    = aws_lambda_function.get_repository_data_lambda.invoke_arn
+
+  payload_format_version = "2.0"
+}
+
+resource "aws_apigatewayv2_route" "get_repository_data_route" {
+  api_id    = aws_apigatewayv2_api.api.id
+  route_key = "GET /repo"
+  target    = "integrations/${aws_apigatewayv2_integration.get_repository_data_integration.id}"
+}
+
+resource "aws_lambda_permission" "get_repository_data_api_permission" {
+  function_name = aws_lambda_function.get_repository_data_lambda.function_name
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.api.execution_arn}/*/*"

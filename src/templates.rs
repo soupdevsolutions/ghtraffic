@@ -1,6 +1,6 @@
 use askama::Template;
 
-use crate::github::UserRepository;
+use crate::github::{UserRepository, UserRepositoryViews};
 
 #[derive(Template)]
 #[template(path = "index.html")]
@@ -18,4 +18,10 @@ pub struct WelcomeTemplate {
 #[template(path = "authenticated.html")]
 pub struct AuthenticatedTemplate {
     pub repositories: Vec<UserRepository>,
+}
+
+#[derive(Template)]
+#[template(path = "repo_info.html")]
+pub struct RepoViewsTemplate {
+    pub views: UserRepositoryViews,
 }

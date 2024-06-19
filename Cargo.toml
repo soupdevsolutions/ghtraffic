@@ -12,8 +12,12 @@ name = "render_website"
 path = "src/bins/render_website.rs"
 
 [[bin]]
-name = "get_github_data"
-path = "src/bins/get_github_data.rs"
+name = "get_repositories_data"
+path = "src/bins/get_repositories_data.rs"
+
+[[bin]]
+name = "get_repository_data"
+path = "src/bins/get_repository_data.rs"
 
 [dependencies]
 anyhow = "1.0.86"

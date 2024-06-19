@@ -1,7 +1,7 @@
 use crate::env::{GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET};
 use lambda_http::tracing::{self, warn};
 
-use super::{AccessTokenResponse, GithubError, UserRepository};
+use super::{AccessTokenResponse, GithubError, UserRepository, UserRepositoryViews};
 
 #[derive(Debug)]
 pub struct GithubClient {
@@ -70,6 +70,29 @@ impl GithubClient {
 
         let mut response = response.json::<Vec<UserRepository>>().await?;
         response.sort_by_key(|repo| repo.owner.login.clone());
+        Ok(response)
+    }
+
+    #[tracing::instrument]
+    pub async fn get_repository_traffic(
+        &self,
+        token: String,
+        owner: String,
+        repo: String,
+    ) -> Result<UserRepositoryViews, GithubError> {
+        let url = format!("https://api.github.com/repos/{owner}/{repo}/traffic/views");
+
+        let response = self
+            .client
+            .get(url)
+            .header("Authorization", format!("Bearer {}", token))
+            .header("Accept", "application/vnd.github+json")
+            .header("X-GitHub-Api-Version", "2022-11-28")
+            .header("User-Agent", "ghtraffic")
+            .send()
+            .await?;
+
+        let views = response.json::<UserRepositoryViews>().await?;
         Ok(response)
     }
 }

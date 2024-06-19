@@ -13,6 +13,12 @@ pub struct UserRepositoryOwner {
 }
 
 #[derive(Deserialize, Serialize, Debug)]
+pub struct UserRepositoryViews {
+    pub count: u32,
+    pub uniques: u32,
+}
+
+#[derive(Deserialize, Serialize, Debug)]
 pub struct UserRepository {
     pub id: u64,
     pub full_name: String,
