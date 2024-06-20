@@ -23,9 +23,9 @@
         <h1 class="text-3xl"><a href="/">ghTraffic</a></h1>
     </nav>
     {% if let Some(code) = code %}
-        <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/github?code={{ code }}"></div>
+        <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos?code={{ code }}"></div>
     {% else %}
-         <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/github"></div>
+         <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
     {% endif %}
 </body>
 
