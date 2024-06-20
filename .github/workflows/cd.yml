@@ -8,6 +8,7 @@ on:
         - 'infrastructure/**'
         - 'src/**'
         - 'scripts/**'
+        - 'templates/**'
         - 'Cargo.toml'
         - '.github/workflows/cd.yml'
 
