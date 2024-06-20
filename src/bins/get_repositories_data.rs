@@ -3,21 +3,14 @@ use ghtraffic::{
     github::GithubClient,
     templates::{AuthenticatedTemplate, WelcomeTemplate},
 };
-use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
+use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 
 #[tracing::instrument]
 pub async fn render_authenticated_page(
     github_client: &GithubClient,
-    code: String,
+    token: String,
 ) -> anyhow::Result<String> {
-    tracing::info!("Code: {:?}", code);
-    let token = github_client.exchange_code(code).await?;
-    tracing::info!("Token: {:?}", token);
-
-    let repositories = github_client
-        .get_user_repositories(token.access_token)
-        .await?;
-    tracing::info!("Repositories: {:?}", repositories);
+    let repositories = github_client.get_user_repositories(token).await?;
 
     let template = AuthenticatedTemplate { repositories };
     Ok(template.render()?)
@@ -33,14 +26,19 @@ pub fn render_welcome_page(github_client: &GithubClient) -> anyhow::Result<Strin
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
-    tracing::info!("Received event: {:?}", event);
-    let code = event
-        .query_string_parameters()
-        .first("code")
-        .map(|v| v.to_string());
+    let token = event.headers().get("Cookie");
 
-    let data = match code {
-        Some(code) => render_authenticated_page(github_client, code).await?,
+    let data = match token {
+        Some(token) => {
+            let token = token
+                .to_str()
+                .expect("Cookie is not a string.")
+                .split('=')
+                .last()
+                .unwrap()
+                .to_owned();
+            render_authenticated_page(github_client, token).await?
+        }
         None => render_welcome_page(github_client)?,
     };
 

@@ -92,7 +92,7 @@ impl GithubClient {
             .send()
             .await?;
 
-        let views = response.json::<UserRepositoryViews>().await?;
+        let response = response.json::<UserRepositoryViews>().await?;
         Ok(response)
     }
 }

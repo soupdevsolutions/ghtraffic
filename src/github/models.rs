@@ -1,3 +1,6 @@
+use core::fmt;
+use std::fmt::{Display, Formatter};
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize, Debug)]
@@ -22,5 +25,12 @@ pub struct UserRepositoryViews {
 pub struct UserRepository {
     pub id: u64,
     pub full_name: String,
+    pub name: String,
     pub owner: UserRepositoryOwner,
+}
+
+impl Display for UserRepositoryOwner {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{}", self.login)
+    }
 }

@@ -10,12 +10,18 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
         .first("code")
         .map(String::from);
 
-    let template = IndexTemplate { code };
+    let template = IndexTemplate { code: code.clone() };
+
+    let mut token = String::new();
+    if let Some(code) = code {
+        token = github_client.exchange_code(code).await?.access_token;
+    }
 
     let data = template.render()?;
     let resp = Response::builder()
         .status(200)
         .header("content-type", "text/html")
+        .header("Set-Cookie", format!("token={}", token))
         .body(data.into())
         .map_err(Box::new)?;
 
