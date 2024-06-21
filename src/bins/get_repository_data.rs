@@ -44,7 +44,11 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
             .body("owner and repo query parameters are required.".into())
             .map_err(Box::new)?);
     }
-    tracing::info!("Owner: {}, Repo: {}", owner.as_ref().unwrap(), repo_name.as_ref().unwrap());
+    tracing::info!(
+        "Owner: {}, Repo: {}",
+        owner.as_ref().unwrap(),
+        repo_name.as_ref().unwrap()
+    );
 
     let data = render_repo_views(github_client, token, owner.unwrap(), repo_name.unwrap()).await?;
 
