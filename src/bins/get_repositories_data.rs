@@ -1,7 +1,6 @@
 use askama::Template;
 use ghtraffic::{
-    github::GithubClient,
-    templates::{AuthenticatedTemplate, WelcomeTemplate},
+    github::GithubClient, requests::get_cookie, templates::{AuthenticatedTemplate, WelcomeTemplate}
 };
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 
@@ -26,17 +25,8 @@ pub fn render_welcome_page(github_client: &GithubClient) -> anyhow::Result<Strin
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
-    let token = event.headers().get("Cookie");
-
-    let data = match token {
+    let data = match get_cookie(&event, "token"){
         Some(token) => {
-            let token = token
-                .to_str()
-                .expect("Cookie is not a string.")
-                .split('=')
-                .last()
-                .unwrap()
-                .to_owned();
             render_authenticated_page(github_client, token).await?
         }
         None => render_welcome_page(github_client)?,

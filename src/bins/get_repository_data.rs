@@ -1,5 +1,5 @@
 use askama::Template;
-use ghtraffic::{github::GithubClient, templates::RepoViewsTemplate};
+use ghtraffic::{github::GithubClient, requests::get_cookie, templates::RepoViewsTemplate};
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
 #[tracing::instrument]
@@ -22,16 +22,16 @@ pub async fn render_repo_views(
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
 
-    let token = event
-        .headers()
-        .get("Cookie")
-        .unwrap()
-        .to_str()
-        .expect("Cookie is not a string.")
-        .split('=')
-        .last()
-        .unwrap()
-        .to_owned();
+    let token = match get_cookie(&event, "token") {
+        Some(token) => token,
+        None => {
+            return Ok(Response::builder()
+                .status(401)
+                .body("Unauthorized".into())
+                .map_err(Box::new)?);
+        }
+    };
+    tracing::info!("Token: {}", token);
 
     let query_string_parameters = event.query_string_parameters();
     let owner = query_string_parameters
@@ -44,6 +44,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
             .body("owner and repo query parameters are required.".into())
             .map_err(Box::new)?);
     }
+    tracing::info!("Owner: {}, Repo: {}", owner.as_ref().unwrap(), repo_name.as_ref().unwrap());
 
     let data = render_repo_views(github_client, token, owner.unwrap(), repo_name.unwrap()).await?;
 
