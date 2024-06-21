@@ -51,6 +51,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
     );
 
     let data = render_repo_views(github_client, token, owner.unwrap(), repo_name.unwrap()).await?;
+    tracing::info!("Data to render: {}", data);
 
     let resp = Response::builder()
         .status(200)
