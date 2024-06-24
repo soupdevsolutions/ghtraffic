@@ -44,6 +44,6 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 async fn main() -> Result<(), Error> {
     tracing::init_default_subscriber();
 
-    let github_client = GithubClient::new();
+    let github_client = GithubClient::default();
     run(service_fn(|request| handler(&github_client, request))).await
 }

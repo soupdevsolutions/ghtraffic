@@ -65,19 +65,22 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 async fn main() -> Result<(), Error> {
     tracing::init_default_subscriber();
 
-    let github_client = GithubClient::new();
+    let github_client = GithubClient::default();
     run(service_fn(|request| handler(&github_client, request))).await
 }
 
 #[cfg(test)]
 mod tests {
     use super::handler;
-    use ghtraffic::github::GithubClient;
+    use ghtraffic::github::{GithubClient, GithubClientBaseUri};
     use lambda_http::http::Request;
 
     #[tokio::test]
     async fn test_get_repository_data_returns_error_when_token_is_not_present() {
-        let github_client = GithubClient::new();
+        let github_client = GithubClient::new(
+            GithubClientBaseUri::Custom("".to_string()),
+            GithubClientBaseUri::Custom("".to_string()),
+        );
         let event = Request::get("/").body(lambda_http::Body::Empty).unwrap();
 
         let response = handler(&github_client, event).await.unwrap();

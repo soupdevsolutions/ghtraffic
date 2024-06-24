@@ -3,15 +3,37 @@ use lambda_http::tracing::{self, warn};
 
 use super::{AccessTokenResponse, GithubError, UserRepository, UserRepositoryViews};
 
+const GITHUB_AUTH_BASE_URI: &str = "https://github.com";
+const GITHUB_API_BASE_URI: &str = "https://api.github.com";
+
+pub enum GithubClientBaseUri {
+    Default,
+    Custom(String),
+}
+
 #[derive(Debug)]
 pub struct GithubClient {
     client: reqwest::Client,
+    auth_base_uri: String,
+    api_base_uri: String,
 }
 
 impl GithubClient {
-    pub fn new() -> Self {
+    pub fn new(auth_base_uri: GithubClientBaseUri, api_base_uri: GithubClientBaseUri) -> Self {
+        let auth_base_uri = match auth_base_uri {
+            GithubClientBaseUri::Default => GITHUB_AUTH_BASE_URI.to_owned(),
+            GithubClientBaseUri::Custom(value) => value,
+        };
+
+        let api_base_uri = match api_base_uri {
+            GithubClientBaseUri::Default => GITHUB_API_BASE_URI.to_owned(),
+            GithubClientBaseUri::Custom(value) => value,
+        };
+
         GithubClient {
             client: reqwest::Client::new(),
+            auth_base_uri,
+            api_base_uri,
         }
     }
 
@@ -19,7 +41,10 @@ impl GithubClient {
     pub fn get_login_uri(&self) -> Result<String, GithubError> {
         let client_id = std::env::var(GITHUB_CLIENT_ID)?;
 
-        let url = format!("https://github.com/login/oauth/authorize?client_id={client_id}");
+        let url = format!(
+            "{}/login/oauth/authorize?client_id={}",
+            self.auth_base_uri, client_id
+        );
         Ok(url)
     }
 
@@ -28,7 +53,7 @@ impl GithubClient {
         let client_id = std::env::var(GITHUB_CLIENT_ID)?;
         let client_secret = std::env::var(GITHUB_CLIENT_SECRET)?;
 
-        let url = String::from("https://github.com/login/oauth/access_token");
+        let url = format!("{}/login/oauth/access_token", self.auth_base_uri);
         let params = [
             ("client_id", client_id),
             ("client_secret", client_secret),
@@ -53,7 +78,7 @@ impl GithubClient {
         &self,
         token: String,
     ) -> Result<Vec<UserRepository>, GithubError> {
-        let url = String::from("https://api.github.com/user/repos");
+        let url = format!("{}/user/repos", self.api_base_uri);
 
         let response = self
             .client
@@ -79,7 +104,10 @@ impl GithubClient {
         owner: String,
         repo: String,
     ) -> Result<UserRepositoryViews, GithubError> {
-        let url = format!("https://api.github.com/repos/{owner}/{repo}/traffic/views");
+        let url = format!(
+            "{}/repos/{}/{}/traffic/views",
+            self.api_base_uri, owner, repo
+        );
 
         let response = self
             .client
@@ -98,6 +126,6 @@ impl GithubClient {
 
 impl Default for GithubClient {
     fn default() -> Self {
-        Self::new()
+        GithubClient::new(GithubClientBaseUri::Default, GithubClientBaseUri::Default)
     }
 }
