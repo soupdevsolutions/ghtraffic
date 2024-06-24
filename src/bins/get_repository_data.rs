@@ -68,3 +68,19 @@ async fn main() -> Result<(), Error> {
     let github_client = GithubClient::new();
     run(service_fn(|request| handler(&github_client, request))).await
 }
+
+#[cfg(test)]
+mod tests {
+    use super::handler;
+    use ghtraffic::github::GithubClient;
+    use lambda_http::http::Request;
+
+    #[tokio::test]
+    async fn test_get_repository_data_returns_error_when_token_is_not_present() {
+        let github_client = GithubClient::new();
+        let event = Request::get("/").body(lambda_http::Body::Empty).unwrap();
+
+        let response = handler(&github_client, event).await.unwrap();
+        assert_eq!(response.status(), 401);
+    }
+}
