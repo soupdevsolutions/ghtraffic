@@ -71,16 +71,26 @@ async fn main() -> Result<(), Error> {
 
 #[cfg(test)]
 mod tests {
+
     use super::handler;
     use ghtraffic::github::{GithubClient, GithubClientBaseUri};
     use lambda_http::http::Request;
+    use wiremock::{Mock, MockServer, ResponseTemplate};
+    use wiremock::matchers::{any};
 
     #[tokio::test]
     async fn test_get_repository_data_returns_error_when_token_is_not_present() {
+        let mock_server = MockServer::start().await;
         let github_client = GithubClient::new(
-            GithubClientBaseUri::Custom("".to_string()),
-            GithubClientBaseUri::Custom("".to_string()),
+            GithubClientBaseUri::Custom(mock_server.uri()),
+            GithubClientBaseUri::Custom(mock_server.uri())
         );
+
+        Mock::given(any())
+            .respond_with(ResponseTemplate::new(200))
+            .mount(&mock_server)
+            .await;
+
         let event = Request::get("/").body(lambda_http::Body::Empty).unwrap();
 
         let response = handler(&github_client, event).await.unwrap();

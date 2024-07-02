@@ -1,5 +1,5 @@
 use askama::Template;
-use ghtraffic::{github::GithubClient, templates::IndexTemplate};
+use ghtraffic::{github::GithubClient, requests::create_set_cookie_header, templates::IndexTemplate};
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
 #[tracing::instrument]
@@ -23,7 +23,8 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
         .header("content-type", "text/html");
 
     if let Some(token) = token {
-        resp = resp.header("Set-Cookie", format!("token={}", token));
+        let cookie_header = create_set_cookie_header("token", &token, 3600 * 24 * 7); 
+        resp = resp.header("Set-Cookie", cookie_header);
     }
     let resp = resp.body(data.into())?;
 

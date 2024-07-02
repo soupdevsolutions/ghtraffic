@@ -1,5 +1,5 @@
 <h2> Your repositories: </h2>
-<div class="columns-2">
+<div class="grid grid-cols-2 gap-4">
     <ul class="w-full">
         {% for repo in repositories %}
         <li hx-trigger="click" hx-get="/repo?owner={{ repo.owner }}&repo={{ repo.name }}" hx-target="#repo_info">{{ repo.full_name }}</li>
