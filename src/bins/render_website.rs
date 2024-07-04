@@ -35,7 +35,8 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing_subscriber::fmt().json()
+    tracing_subscriber::fmt()
+        .json()
         .with_max_level(tracing::Level::INFO)
         .with_current_span(false)
         .with_ansi(false)

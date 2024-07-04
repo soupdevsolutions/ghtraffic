@@ -19,17 +19,19 @@ pub async fn render_repos_views(
     let mut total_uniques = 0;
 
     for repo in repos {
-        let views = github_client
+        let referrers_views = github_client
             .get_repository_traffic(&token, &repo.owner, &repo.name)
             .await?;
         tracing::info!("Calculating views for {}", repo.name);
 
-        let mut entry = *referrers.entry(views.referrer).or_insert((0, 0));
-        entry.0 += views.count;
-        entry.1 += views.uniques;
+        for referrer in referrers_views {
+            let mut entry = *referrers.entry(referrer.referrer).or_insert((0, 0));
+            entry.0 += referrer.count;
+            entry.1 += referrer.uniques;
 
-        total_count += views.count;
-        total_uniques += views.uniques;
+            total_count += referrer.count;
+            total_uniques += referrer.uniques;
+        }
     }
 
     let template = RepoViewsTemplate {
@@ -88,7 +90,8 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing_subscriber::fmt().json()
+    tracing_subscriber::fmt()
+        .json()
         .with_max_level(tracing::Level::INFO)
         .with_current_span(false)
         .with_ansi(false)

@@ -89,6 +89,7 @@ impl GithubClient {
             .header("User-Agent", "ghtraffic")
             .query(&[("per_page", 100)])
             .query(&[("visibility", "public")])
+            .query(&[("affiliation", "owner,collaborator")])
             .query(&[("sort", "updated")])
             .send()
             .await?;
@@ -104,7 +105,7 @@ impl GithubClient {
         token: &str,
         owner: &str,
         repo: &str,
-    ) -> Result<UserRepositoryViews, GithubError> {
+    ) -> Result<Vec<UserRepositoryViews>, GithubError> {
         let url = format!(
             "{}/repos/{}/{}/traffic/popular/referrers",
             self.api_base_uri, owner, repo
@@ -120,7 +121,7 @@ impl GithubClient {
             .send()
             .await?;
 
-        let response = response.json::<UserRepositoryViews>().await?;
+        let response = response.json::<Vec<UserRepositoryViews>>().await?;
         Ok(response)
     }
 }
