@@ -1,12 +1,12 @@
 <h2> Your repositories: </h2>
 <div class="grid grid-cols-2 gap-4">
-    <form class="w-full h-64 overflow-y-auto" hx-get="/repo" hx-target="#repo_info">
-        <input type="submit" value="Refresh" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"><br/>
+    <form id="repos_form" class="bg-gray-300 w-full h-64 overflow-y-scroll" hx-get="/repo" hx-target="#repo_info">
         {% for repo in repositories %}
             <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"> 
             <label for="repo_{{ repo.id }}">{{ repo.full_name }}</label> <br/>
         {% endfor %}
     </form>
+    <input type="submit" value="Refresh" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" form="repos_form">
     <div class="w-full bg-gray-400">
         <div id="repo_info" class="container mx-auto flex-auto">
             Waiting for data...
