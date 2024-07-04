@@ -35,7 +35,13 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing::init_default_subscriber();
+    tracing_subscriber::fmt().json()
+        .with_max_level(tracing::Level::INFO)
+        .with_current_span(false)
+        .with_ansi(false)
+        .without_time()
+        .with_target(false)
+        .init();
 
     let github_client = GithubClient::default();
     run(service_fn(|request| handler(&github_client, request))).await

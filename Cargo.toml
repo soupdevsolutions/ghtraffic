@@ -31,4 +31,5 @@ reqwest = { version = "0.12.4", features = ["json"] }
 serde = { version = "1.0.203", features = ["derive"] }
 thiserror = "1.0.61"
 tokio = { version = "1", features = ["macros"] }
+tracing-subscriber = "0.3.18"
 wiremock = "0.6.0"

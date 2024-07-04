@@ -22,6 +22,7 @@ pub async fn render_repos_views(
         let views = github_client
             .get_repository_traffic(&token, &repo.owner, &repo.name)
             .await?;
+        tracing::info!("Calculating views for {}", repo.name);
 
         let mut entry = *referrers.entry(views.referrer).or_insert((0, 0));
         entry.0 += views.count;
@@ -39,6 +40,8 @@ pub async fn render_repos_views(
         },
     };
 
+    tracing::info!("Template compiled.");
+
     Ok(template.render().unwrap())
 }
 
@@ -55,10 +58,10 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
                 .map_err(Box::new)?);
         }
     };
-    tracing::info!("Token: {}", token);
 
     let query_string_parameters = event.query_string_parameters();
     let repo_names = query_string_parameters.all("repo_name");
+    tracing::info!("Query string parameters: {:?}", query_string_parameters);
 
     if repo_names.is_none() {
         return Ok(Response::builder()
@@ -72,6 +75,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
         let repo = Repository::parse(repo_name)?;
         repos.push(repo);
     }
+    tracing::info!("Repo names: {:?}", repos);
 
     let data = render_repos_views(github_client, token, repos).await?;
     let resp = Response::builder()
@@ -84,7 +88,13 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    tracing::init_default_subscriber();
+    tracing_subscriber::fmt().json()
+        .with_max_level(tracing::Level::INFO)
+        .with_current_span(false)
+        .with_ansi(false)
+        .without_time()
+        .with_target(false)
+        .init();
 
     let github_client = GithubClient::default();
     run(service_fn(|request| handler(&github_client, request))).await
