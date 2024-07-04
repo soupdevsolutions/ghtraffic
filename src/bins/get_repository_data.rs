@@ -1,6 +1,8 @@
+use std::collections::HashMap;
+
 use askama::Template;
 use ghtraffic::{
-    github::{GithubClient, Repository, UserAggregatedViews, UserRepositoryViews},
+    github::{GithubClient, Repository, UserAggregatedViews},
     requests::get_cookie,
     templates::RepoViewsTemplate,
 };
@@ -12,7 +14,6 @@ pub async fn render_repos_views(
     token: String,
     repos: Vec<Repository>,
 ) -> anyhow::Result<String> {
-
     let mut referrers = HashMap::new();
     let mut total_count = 0;
     let mut total_uniques = 0;
@@ -22,7 +23,10 @@ pub async fn render_repos_views(
             .get_repository_traffic(&token, &repo.owner, &repo.name)
             .await?;
 
-        *referrers.entry(views.referrer).or_insert((0, 0)) += (views.count, views.uniques); 
+        let mut entry = *referrers.entry(views.referrer).or_insert((0, 0));
+        entry.0 += views.count;
+        entry.1 += views.uniques;
+
         total_count += views.count;
         total_uniques += views.uniques;
     }

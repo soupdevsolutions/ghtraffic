@@ -1,6 +1,6 @@
 use askama::Template;
 
-use crate::github::{UserAggregatedViews, UserRepository, UserRepositoryViews};
+use crate::github::{UserAggregatedViews, UserRepository};
 
 #[derive(Template)]
 #[template(path = "index.html")]
