@@ -38,7 +38,7 @@ pub async fn render_repos_views(
         views: UserAggregatedViews {
             total_count,
             total_uniques,
-            referrers: Default::default(),
+            referrers
         },
     };
 
