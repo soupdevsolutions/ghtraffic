@@ -1,10 +1,10 @@
-<h2> Your repositories: </h2>
 <div class="grid grid-cols-2 gap-4">
     <div class="w-full">
         <form id="repos_form" class="bg-gray-300 w-full h-64 overflow-y-scroll" hx-get="/repo" hx-target="#repo_info">
             {% for repo in repositories %}
                 <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"> 
                 <label for="repo_{{ repo.id }}">{{ repo.full_name }}</label> <br/>
+                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
             {% endfor %}
         </form>
         <br/>
