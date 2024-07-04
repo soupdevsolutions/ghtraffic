@@ -1,7 +1,7 @@
 <h2> Your repositories: </h2>
-<div class="grid grid-cols-2 gap-4 overflow-y-auto">
+<div class="grid grid-cols-2 gap-4 h-64 overflow-y-auto">
     <form class="w-full" hx-get="/repo" hx-target="#repo_info">
-        <input type="submit" value="Refresh" class="btn primary">
+        <input type="submit" value="Refresh" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"><br/>
         {% for repo in repositories %}
             <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"> 
             <label for="repo_{{ repo.id }}">{{ repo.full_name }}</label> <br/>
