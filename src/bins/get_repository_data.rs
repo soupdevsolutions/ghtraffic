@@ -25,9 +25,11 @@ pub async fn render_repos_views(
         tracing::info!("Calculating views for {}", repo.name);
 
         for referrer in referrers_views {
-            let mut entry = *referrers.entry(referrer.referrer).or_insert((0, 0));
+            let mut entry = *referrers.entry(referrer.referrer.clone()).or_insert((0, 0));
             entry.0 += referrer.count;
             entry.1 += referrer.uniques;
+
+            referrers.insert(referrer.referrer, entry);
 
             total_count += referrer.count;
             total_uniques += referrer.uniques;
@@ -38,7 +40,7 @@ pub async fn render_repos_views(
         views: UserAggregatedViews {
             total_count,
             total_uniques,
-            referrers
+            referrers,
         },
     };
 
