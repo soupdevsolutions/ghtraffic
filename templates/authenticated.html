@@ -1,5 +1,5 @@
 <h2> Your repositories: </h2>
-<div class="grid grid-cols-2 gap-4">
+<div class="grid grid-cols-2 gap-4 overflow-y-auto">
     <form class="w-full" hx-get="/repo" hx-target="#repo_info">
         <input type="submit" value="Refresh" class="btn primary">
         {% for repo in repositories %}
@@ -8,10 +8,8 @@
         {% endfor %}
     </form>
     <div class="w-full bg-gray-400">
-        <div id="repo_info" 
-             class="container mx-auto flex-auto" 
-             hx-trigger="load" 
-             hx-get="/repo?owner={{ repositories[0].owner }}&repo={{ repositories[0].name }}">
+        <div id="repo_info" class="container mx-auto flex-auto">
+            Waiting for data...
         </div>
     </div>
 </div>
