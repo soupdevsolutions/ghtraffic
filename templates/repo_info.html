@@ -1,5 +1,14 @@
 <div>
+    <h3> Total Views: {{ views.count }} </h3>
+    <h3> Total Unique Visitors: {{ views.uniques }} </h3>
     <hr/>
-    <h3> Views: {{ views.count }} </h3>
-    <h3> Unique Visitors: {{ views.uniques }} </h3>
+
+    {% for referrer in views.referrers %}
+        <h3> {{ referrer }} </h3>
+        <ul>
+            <li> Views: {{ views.referrers[referrer].count }} </li>
+            <li> Unique Visitors: {{ views.referrers[referrer].uniques }} </li>
+        </ul>
+    {% endofor %} 
+
 </div>

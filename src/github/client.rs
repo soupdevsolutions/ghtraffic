@@ -107,7 +107,7 @@ impl GithubClient {
         repo: &str,
     ) -> Result<UserRepositoryViews, GithubError> {
         let url = format!(
-            "{}/repos/{}/{}/traffic/views",
+            "{}/repos/{}/{}/traffic/popular/referrers",
             self.api_base_uri, owner, repo
         );
 

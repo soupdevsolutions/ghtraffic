@@ -1,6 +1,6 @@
 use askama::Template;
 use ghtraffic::{
-    github::{GithubClient, Repository, UserRepositoryViews},
+    github::{GithubClient, Repository, UserAggregatedViews, UserRepositoryViews},
     requests::get_cookie,
     templates::RepoViewsTemplate,
 };
@@ -12,20 +12,27 @@ pub async fn render_repos_views(
     token: String,
     repos: Vec<Repository>,
 ) -> anyhow::Result<String> {
-    let mut count = 0;
-    let mut uniques = 0;
+
+    let mut referrers = HashMap::new();
+    let mut total_count = 0;
+    let mut total_uniques = 0;
 
     for repo in repos {
         let views = github_client
             .get_repository_traffic(&token, &repo.owner, &repo.name)
             .await?;
 
-        count += views.count;
-        uniques += views.uniques;
+        *referrers.entry(views.referrer).or_insert((0, 0)) += (views.count, views.uniques); 
+        total_count += views.count;
+        total_uniques += views.uniques;
     }
 
     let template = RepoViewsTemplate {
-        views: UserRepositoryViews { count, uniques },
+        views: UserAggregatedViews {
+            total_count,
+            total_uniques,
+            referrers: Default::default(),
+        },
     };
 
     Ok(template.render().unwrap())
