@@ -100,9 +100,9 @@ impl GithubClient {
     #[tracing::instrument]
     pub async fn get_repository_traffic(
         &self,
-        token: String,
-        owner: String,
-        repo: String,
+        token: &str,
+        owner: &str,
+        repo: &str,
     ) -> Result<UserRepositoryViews, GithubError> {
         let url = format!(
             "{}/repos/{}/{}/traffic/views",

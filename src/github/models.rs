@@ -3,6 +3,35 @@ use std::fmt::{Display, Formatter};
 
 use serde::{Deserialize, Serialize};
 
+use super::RepositoryError;
+
+#[derive(Debug)]
+pub struct Repository {
+    pub full_name: String,
+    pub owner: String,
+    pub name: String,
+}
+
+impl Repository {
+    pub fn parse(full_name: impl Into<String>) -> Result<Self, RepositoryError> {
+        let full_name = full_name.into();
+        let parts: Vec<&str> = full_name.split('/').collect();
+
+        if parts.len() != 2 {
+            return Err(RepositoryError::ParseError(full_name));
+        }
+
+        let owner = parts[0].to_string();
+        let name = parts[1].to_string();
+
+        Ok(Repository {
+            full_name,
+            owner,
+            name,
+        })
+    }
+}
+
 #[derive(Deserialize, Serialize, Debug)]
 pub struct AccessTokenResponse {
     pub access_token: String,

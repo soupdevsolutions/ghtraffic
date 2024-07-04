@@ -3,7 +3,7 @@
     <form class="w-full" hx-get="/repo" hx-target="#repo_info">
         <input type="submit" value="Refresh" class="btn primary">
         {% for repo in repositories %}
-            <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo:{{ repo.full_name }}"> 
+            <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"> 
             <label for="repo_{{ repo.id }}">{{ repo.full_name }}</label> <br/>
         {% endfor %}
     </form>

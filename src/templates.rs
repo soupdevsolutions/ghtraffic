@@ -23,6 +23,5 @@ pub struct AuthenticatedTemplate {
 #[derive(Template)]
 #[template(path = "repo_info.html")]
 pub struct RepoViewsTemplate {
-    pub repo_name: String,
     pub views: UserRepositoryViews,
 }
