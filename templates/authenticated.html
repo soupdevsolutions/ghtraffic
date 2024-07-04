@@ -4,10 +4,9 @@
             {% for repo in repositories %}
                 <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"> 
                 <label for="repo_{{ repo.id }}">{{ repo.full_name }}</label> <br/>
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+                <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
             {% endfor %}
         </form>
-        <br/>
         <input type="submit" value="Refresh" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" form="repos_form">
     </div>
     <div class="w-full bg-gray-400">
