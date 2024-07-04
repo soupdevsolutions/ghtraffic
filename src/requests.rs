@@ -16,7 +16,10 @@ pub fn get_cookie(event: &Request, cookie_name: &str) -> Option<String> {
 }
 
 pub fn create_set_cookie_header(cookie_name: &str, cookie_value: &str, duration: u32) -> String {
-    format!("{}={}; Max-Age={}; HttpOnly", cookie_name, cookie_value, duration) 
+    format!(
+        "{}={}; Max-Age={}; HttpOnly",
+        cookie_name, cookie_value, duration
+    )
 }
 
 #[cfg(test)]

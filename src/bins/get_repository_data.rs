@@ -10,10 +10,13 @@ pub async fn render_repo_views(
     repo: String,
 ) -> anyhow::Result<String> {
     let views = github_client
-        .get_repository_traffic(token, owner, repo)
+        .get_repository_traffic(token, owner, repo.clone())
         .await?;
 
-    let template = RepoViewsTemplate { views };
+    let template = RepoViewsTemplate {
+        repo_name: repo,
+        views,
+    };
 
     Ok(template.render().unwrap())
 }
@@ -75,15 +78,15 @@ mod tests {
     use super::handler;
     use ghtraffic::github::{GithubClient, GithubClientBaseUri};
     use lambda_http::http::Request;
+    use wiremock::matchers::any;
     use wiremock::{Mock, MockServer, ResponseTemplate};
-    use wiremock::matchers::{any};
 
     #[tokio::test]
     async fn test_get_repository_data_returns_error_when_token_is_not_present() {
         let mock_server = MockServer::start().await;
         let github_client = GithubClient::new(
             GithubClientBaseUri::Custom(mock_server.uri()),
-            GithubClientBaseUri::Custom(mock_server.uri())
+            GithubClientBaseUri::Custom(mock_server.uri()),
         );
 
         Mock::given(any())
