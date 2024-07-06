@@ -89,6 +89,7 @@ impl GithubClient {
             .header("User-Agent", "ghtraffic")
             .query(&[("per_page", 100)])
             .query(&[("visibility", "public")])
+            .query(&[("sort", "pushed")])
             .send()
             .await?;
 
