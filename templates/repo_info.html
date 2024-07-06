@@ -1,14 +1,26 @@
 <div>
-    <h3> Total Views: {{ views.total_count }} </h3>
-    <h3> Total Unique Visitors: {{ views.total_uniques }} </h3>
-    <hr/>
-
-    {% for referrer in views.referrers %}
-        <h3> {{ referrer.0 }} </h3>
-        <ul>
-            <li> Views: {{ referrer.1.0 }} </li>
-            <li> Unique Visitors: {{ referrer.1.1 }} </li>
-        </ul>
-    {% endfor %} 
+    <table class="table-auto">
+        <thead>
+            <tr>
+                <th> Referrer </th>
+                <th> Views </th>
+                <th> Unique Visitors </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for referrer in views.referrers %}
+                <tr>
+                    <td><b>{{ referrer.0 }}</b></td>
+                    <td> {{ referrer.1.0 }} </td>
+                    <td> {{ referrer.1.1 }} </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td> <b>Total</b> </td>
+                <td> {{ views.total_count }} </td>
+                <td> {{ views.total_uniques }} </td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>
