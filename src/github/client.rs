@@ -93,8 +93,7 @@ impl GithubClient {
             .send()
             .await?;
 
-        let mut response = response.json::<Vec<UserRepository>>().await?;
-        response.sort_by_key(|repo| repo.owner.login.clone());
+        let response = response.json::<Vec<UserRepository>>().await?;
         Ok(response)
     }
 
