@@ -15,8 +15,8 @@ pub struct WelcomeTemplate {
 }
 
 #[derive(Template)]
-#[template(path = "authenticated.html")]
-pub struct AuthenticatedTemplate {
+#[template(path = "repo_list.html")]
+pub struct RepoListTemplate {
     pub repositories: Vec<UserRepository>,
 }
 

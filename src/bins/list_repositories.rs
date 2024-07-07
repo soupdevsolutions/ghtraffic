@@ -2,7 +2,7 @@ use askama::Template;
 use ghtraffic::{
     github::GithubClient,
     requests::get_cookie,
-    templates::{AuthenticatedTemplate, WelcomeTemplate},
+    templates::{RepoListTemplate, WelcomeTemplate},
 };
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, Response};
 
@@ -12,7 +12,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
         Some(token) => {
             let repositories = github_client.get_user_repositories(token).await?;
 
-            let template = AuthenticatedTemplate { repositories };
+            let template = RepoListTemplate { repositories };
             template.render()?
         }
         None => {

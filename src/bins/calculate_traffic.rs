@@ -113,7 +113,7 @@ mod tests {
     use wiremock::{Mock, MockServer, ResponseTemplate};
 
     #[tokio::test]
-    async fn test_get_repository_data_returns_error_when_token_is_not_present() {
+    async fn test_calculate_traffic_returns_error_when_token_is_not_present() {
         let mock_server = MockServer::start().await;
         let github_client = GithubClient::new(
             GithubClientBaseUri::Custom(mock_server.uri()),

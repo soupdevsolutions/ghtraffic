@@ -12,12 +12,12 @@ name = "render_website"
 path = "src/bins/render_website.rs"
 
 [[bin]]
-name = "get_repositories_data"
-path = "src/bins/get_repositories_data.rs"
+name = "list_repositories"
+path = "src/bins/list_repositories.rs"
 
 [[bin]]
-name = "get_repository_data"
-path = "src/bins/get_repository_data.rs"
+name = "calculate_traffic"
+path = "src/bins/calculate_traffic.rs"
 
 [dependencies]
 anyhow = "1.0.86"

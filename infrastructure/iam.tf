@@ -40,11 +40,11 @@ resource "aws_iam_role_policy_attachment" "render_website_policy_attachment" {
 
 
 # GET REPOSITORIES DATA LAMBDA ROLE/POLICIES
-resource "aws_iam_role" "get_repositories_data" {
-  assume_role_policy = data.aws_iam_policy_document.get_repositories_data_assume_policy.json
+resource "aws_iam_role" "list_repositories" {
+  assume_role_policy = data.aws_iam_policy_document.list_repositories_assume_policy.json
 }
 
-data "aws_iam_policy_document" "get_repositories_data_assume_policy" {
+data "aws_iam_policy_document" "list_repositories_assume_policy" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "get_repositories_data_assume_policy" {
   }
 }
 
-data "aws_iam_policy_document" "get_repositories_data_policy_document" {
+data "aws_iam_policy_document" "list_repositories_policy_document" {
   statement {
     actions = [
       "logs:CreateLogGroup",
@@ -69,23 +69,23 @@ data "aws_iam_policy_document" "get_repositories_data_policy_document" {
   }
 }
 
-resource "aws_iam_policy" "get_repositories_data_policy" {
-  name   = "get_repositories_data_policy"
-  policy = data.aws_iam_policy_document.get_repositories_data_policy_document.json
+resource "aws_iam_policy" "list_repositories_policy" {
+  name   = "list_repositories_policy"
+  policy = data.aws_iam_policy_document.list_repositories_policy_document.json
 }
 
-resource "aws_iam_role_policy_attachment" "get_repositories_data_policy_attachment" {
-  role       = aws_iam_role.get_repositories_data.name
-  policy_arn = aws_iam_policy.get_repositories_data_policy.arn
+resource "aws_iam_role_policy_attachment" "list_repositories_policy_attachment" {
+  role       = aws_iam_role.list_repositories.name
+  policy_arn = aws_iam_policy.list_repositories_policy.arn
 }
 
 
 # GET REPOSITORY DATA LAMBDA ROLE/POLICIES
-resource "aws_iam_role" "get_repository_data" {
-  assume_role_policy = data.aws_iam_policy_document.get_repository_data_assume_policy.json
+resource "aws_iam_role" "calculate_traffic" {
+  assume_role_policy = data.aws_iam_policy_document.calculate_traffic_assume_policy.json
 }
 
-data "aws_iam_policy_document" "get_repository_data_assume_policy" {
+data "aws_iam_policy_document" "calculate_traffic_assume_policy" {
   statement {
     actions = ["sts:AssumeRole"]
     principals {
@@ -95,7 +95,7 @@ data "aws_iam_policy_document" "get_repository_data_assume_policy" {
   }
 }
 
-data "aws_iam_policy_document" "get_repository_data_policy_document" {
+data "aws_iam_policy_document" "calculate_traffic_policy_document" {
   statement {
     actions = [
       "logs:CreateLogGroup",
@@ -110,12 +110,12 @@ data "aws_iam_policy_document" "get_repository_data_policy_document" {
   }
 }
 
-resource "aws_iam_policy" "get_repository_data_policy" {
-  name   = "get_repository_data_policy"
-  policy = data.aws_iam_policy_document.get_repository_data_policy_document.json
+resource "aws_iam_policy" "calculate_traffic_policy" {
+  name   = "calculate_traffic_policy"
+  policy = data.aws_iam_policy_document.calculate_traffic_policy_document.json
 }
 
-resource "aws_iam_role_policy_attachment" "get_repository_data_policy_attachment" {
-  role       = aws_iam_role.get_repository_data.name
-  policy_arn = aws_iam_policy.get_repository_data_policy.arn
+resource "aws_iam_role_policy_attachment" "calculate_traffic_policy_attachment" {
+  role       = aws_iam_role.calculate_traffic.name
+  policy_arn = aws_iam_policy.calculate_traffic_policy.arn
 }
