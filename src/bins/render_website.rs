@@ -25,7 +25,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
         .header("content-type", "text/html");
 
     if let Some(token) = token {
-        let cookie_header = create_set_cookie_header("token", &token, 3600 * 24 * 7);
+        let cookie_header = create_set_cookie_header("token", &token, 3600 * 2);
         resp = resp.header("Set-Cookie", cookie_header);
     }
     let resp = resp.body(data.into())?;
