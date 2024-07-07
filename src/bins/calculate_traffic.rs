@@ -37,7 +37,7 @@ pub async fn render_repos_views(
     }
 
     let mut referrers: Vec<_> = referrers.into_iter().collect();
-    referrers.sort_by(|a, b| a.0.cmp(&b.0));
+    referrers.sort_by(|a, b| b.0.cmp(&a.0));
 
     let template = RepoViewsTemplate {
         views: UserAggregatedViews {
