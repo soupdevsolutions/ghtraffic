@@ -1,8 +1,5 @@
 use core::fmt;
-use std::{
-    collections::HashMap,
-    fmt::{Display, Formatter},
-};
+use std::fmt::{Display, Formatter};
 
 use serde::{Deserialize, Serialize};
 
@@ -58,7 +55,7 @@ pub struct UserRepositoryViews {
 pub struct UserAggregatedViews {
     pub total_count: u32,
     pub total_uniques: u32,
-    pub referrers: HashMap<String, (u32, u32)>,
+    pub referrers: Vec<(String, (u32, u32))>,
 }
 
 #[derive(Deserialize, Serialize, Debug)]
