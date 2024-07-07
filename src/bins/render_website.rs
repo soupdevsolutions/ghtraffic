@@ -1,24 +1,29 @@
 use askama::Template;
 use ghtraffic::{
-    github::GithubClient, requests::create_set_cookie_header, templates::IndexTemplate,
+    github::GithubClient, requests::create_set_cookie_header, requests::get_cookie,
+    requests::TOKEN_COOKIE, templates::IndexTemplate,
 };
 use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Response};
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
     tracing::info!("Received event: {:?}", event);
-    let code = event
-        .query_string_parameters()
-        .first("code")
-        .map(String::from);
 
-    let template = IndexTemplate { code: code.clone() };
-
-    let mut token = None;
-    if let Some(code) = code {
-        token = Some(github_client.exchange_code(code).await?.access_token);
+    let mut token = get_cookie(&event, TOKEN_COOKIE);
+    if token.is_none() {
+        let code = event
+            .query_string_parameters()
+            .first("code")
+            .map(String::from);
+        if let Some(code) = code {
+            token = Some(github_client.exchange_code(code).await?.access_token);
+        }
     }
 
+    let template = IndexTemplate {
+        authenticated: token.is_some(),
+        login_uri: github_client.get_login_uri().ok(),
+    };
     let data = template.render()?;
     let mut resp = Response::builder()
         .status(200)

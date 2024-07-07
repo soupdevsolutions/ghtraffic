@@ -33,7 +33,7 @@ resource "aws_apigatewayv2_integration" "render_website_integration" {
 
 resource "aws_apigatewayv2_route" "render_website_route" {
   api_id    = aws_apigatewayv2_api.api.id
-  route_key = "GET /web"
+  route_key = "GET /"
   target    = "integrations/${aws_apigatewayv2_integration.render_website_integration.id}"
 }
 

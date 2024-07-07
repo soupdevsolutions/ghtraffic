@@ -22,10 +22,17 @@
     <nav class="bg-gray-300 mb-2 p-2 pl-10">
         <h1 class="text-3xl"><a href="/">ghTraffic</a></h1>
     </nav>
-    {% if let Some(code) = code %}
-        <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos?code={{ code }}"></div>
+    {% if authenticated %}
+        <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
     {% else %}
-         <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
+        <div class="flex flex-col items-center">
+            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">Welcome to ghTraffic by soup.dev</h1>
+            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
+                ghTraffic allows you to aggregate traffic data from multiple GitHub repositories.
+            </p>
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"/>
+            <a href="{{ login_uri.as_ref().unwrap() }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Login with GitHub</a>
+        </div>
     {% endif %}
 
     <div class="sticky top-full">

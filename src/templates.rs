@@ -5,13 +5,8 @@ use crate::github::{UserAggregatedViews, UserRepository};
 #[derive(Template)]
 #[template(path = "index.html")]
 pub struct IndexTemplate {
-    pub code: Option<String>,
-}
-
-#[derive(Template)]
-#[template(path = "welcome.html")]
-pub struct WelcomeTemplate {
-    pub login_uri: String,
+    pub authenticated: bool,
+    pub login_uri: Option<String>,
 }
 
 #[derive(Template)]
