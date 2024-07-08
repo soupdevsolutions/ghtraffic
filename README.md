@@ -1,5 +1,7 @@
 # ghTraffic
 
+<img src="./img/logo_small.png" alt="ghTraffic logo" style="height: 200px; width:200px;"/>
+
 [![CI](https://github.com/soupdevsolutions/ghstats/actions/workflows/ci.yml/badge.svg)](https://github.com/soupdevsolutions/ghstats/actions/workflows/ci.yml)
 [![CD](https://github.com/soupdevsolutions/ghstats/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/soupdevsolutions/ghstats/actions/workflows/cd.yml)
 
