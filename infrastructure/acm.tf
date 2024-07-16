@@ -4,5 +4,5 @@ resource "aws_acm_certificate" "ghtraffic" {
 }
 
 resource "aws_acm_certificate_validation" "ghtraffic" {
-  certificate_arn         = aws_acm_certificate.ghtraffic.arn
+  certificate_arn = aws_acm_certificate.ghtraffic.arn
 }
