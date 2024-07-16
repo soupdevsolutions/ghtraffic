@@ -1,4 +1,5 @@
 resource "aws_acm_certificate" "ghtraffic" {
+  provider          = aws.us
   domain_name       = "ghtraffic.com"
   validation_method = "DNS"
 }
