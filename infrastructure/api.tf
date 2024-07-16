@@ -11,9 +11,14 @@ resource "aws_apigatewayv2_api" "api" {
   }
 }
 
-resource "aws_api_gateway_domain_name" "ghtraffic" {
-  certificate_arn = aws_acm_certificate_validation.ghtraffic.certificate_arn
-  domain_name     = "ghtraffic.com"
+resource "aws_apigatewayv2_domain_name" "domain_name" {
+  domain_name = "ghtraffic.com"
+
+  domain_name_configuration {
+    certificate_arn = aws_acm_certificate.ghtraffic.arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
 }
 
 resource "aws_apigatewayv2_stage" "api_stage" {
@@ -22,6 +27,12 @@ resource "aws_apigatewayv2_stage" "api_stage" {
   auto_deploy = true
 }
 
+
+resource "aws_apigatewayv2_api_mapping" "api_mapping" {
+  api_id      = aws_apigatewayv2_api.api.id
+  domain_name = aws_apigatewayv2_domain_name.domain_name.id
+  stage       = aws_apigatewayv2_stage.api_stage.id
+}
 
 # RENDER WEBSITE 
 resource "aws_apigatewayv2_integration" "render_website_integration" {
