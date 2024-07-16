@@ -11,6 +11,11 @@ resource "aws_apigatewayv2_api" "api" {
   }
 }
 
+resource "aws_api_gateway_domain_name" "ghtraffic" {
+  certificate_arn = aws_acm_certificate_validation.ghtraffic.certificate_arn
+  domain_name     = "ghtraffic.com"
+}
+
 resource "aws_apigatewayv2_stage" "api_stage" {
   api_id      = aws_apigatewayv2_api.api.id
   name        = "$default"
