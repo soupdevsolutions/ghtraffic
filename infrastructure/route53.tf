@@ -1,8 +1,8 @@
 data "aws_route53_zone" "ghtraffic.com" {
-  name = "ghtraffic.com"
+  name = "www.ghtraffic.com"
 }
 
-data "aws_route53_record" "ghtraffic.com" {
+resource "aws_route53_record" "ghtraffic" {
   name    = aws_api_gateway_domain_name.ghtraffic.domain_name
   type    = "A"
   zone_id = aws_route53_zone.ghtraffic.id
