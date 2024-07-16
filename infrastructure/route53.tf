@@ -1,4 +1,4 @@
-data "aws_route53_zone" "ghtraffic.com" {
+data "aws_route53_zone" "ghtraffic" {
   name = "www.ghtraffic.com"
 }
 
