@@ -19,6 +19,8 @@ resource "aws_apigatewayv2_domain_name" "domain_name" {
     endpoint_type   = "REGIONAL"
     security_policy = "TLS_1_2"
   }
+
+  depends_on = [ aws_acm_certificate_validation.ghtraffic ]
 }
 
 resource "aws_apigatewayv2_stage" "api_stage" {
