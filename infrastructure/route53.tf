@@ -31,3 +31,11 @@ resource "aws_route53_record" "ghtraffic_alias" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "ghtraffic_www" {
+  name    = "www.ghtraffic.com"
+  records = [aws_apigatewayv2_domain_name.domain_name.domain_name]
+  ttl     = 60
+  type    = "CNAME"
+  zone_id = data.aws_route53_zone.ghtraffic.zone_id
+}
