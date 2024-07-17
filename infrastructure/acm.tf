@@ -1,6 +1,7 @@
 resource "aws_acm_certificate" "ghtraffic" {
-  domain_name       = "ghtraffic.com"
-  validation_method = "DNS"
+  domain_name               = "ghtraffic.com"
+  subject_alternative_names = ["www.ghtraffic.com"]
+  validation_method         = "DNS"
 }
 
 resource "aws_acm_certificate_validation" "ghtraffic" {
