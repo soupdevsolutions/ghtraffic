@@ -5,7 +5,7 @@
 [![CI](https://github.com/soupdevsolutions/ghstats/actions/workflows/ci.yml/badge.svg)](https://github.com/soupdevsolutions/ghstats/actions/workflows/ci.yml)
 [![CD](https://github.com/soupdevsolutions/ghstats/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/soupdevsolutions/ghstats/actions/workflows/cd.yml)
 
-[ghTraffic](https://ghtraffic.soup.dev) is a small web application that allows you to view aggregated traffic information from multiple GitHub repositories.  
+[ghTraffic](https://ghtraffic.com) is a small web application that allows you to view aggregated traffic information from multiple GitHub repositories.  
 
 ## Building and Testing
 
