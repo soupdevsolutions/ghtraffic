@@ -78,32 +78,32 @@
         </button>
     </nav>
     {% if authenticated %}
-    <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
+        <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
     {% else %}
-    <div class="flex flex-col items-center px-4 md:px-36 lg:px-60 w-full h-auto">
-        <h1
-            class="mb-10 md:text-4xl text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl dark:text-gray-100 text-center">
-            <span class="">
-                ghTraffic
-            </span>by <a href="https://soup.dev"
-                class="bg-gradient-to-r from-green-600 to-green-500 text-transparent bg-clip-text hover:bg-transparent hover:text-pink-600 transition-all">soup.dev</a>
-        </h1>
-        <p class="mb-6 text-lg lg:text-xl font-normal text-gray-800 dark:text-gray-200 text-center">
-            ghTraffic allows you to view aggregated traffic information <br class="hidden sm:block" /> from multiple
-            GitHub repositories.
-        </p>
-        <p class="mb-6 mt-10 text-md lg:text-lg font-normal text-gray-600 dark:text-gray-300 text-center">
-            To get started, login with your GitHub account:
-        </p>
-        <a href="{{ login_uri.as_ref().unwrap() }}"
-            class="bg-green-500 hover:bg-green-700 dark:bg-green-600 text-xl text-white font-semibold py-2 px-4 rounded font-sans transition-all">Login
-            with GitHub</a>
-        <p class="mt-10 text-sm font-normal text-gray-500 dark:text-gray-300 text-center">
-            This is an open-source project.<br />Consider supporting it on
-            <a href="https://buymeacoffee.com/mirch"
-                class="text-yellow-600 no-underline hover:text-opacity-80">buymeacoffee.com</a>
-        </p>
-    </div>
+        <div class="flex flex-col items-center px-4 md:px-36 lg:px-60 w-full h-auto">
+            <h1
+                class="mb-10 md:text-4xl text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl dark:text-gray-100 text-center">
+                <span class="">
+                    ghTraffic
+                </span>by <a href="https://soup.dev"
+                    class="bg-gradient-to-r from-green-600 to-green-500 text-transparent bg-clip-text hover:bg-transparent hover:text-pink-600 transition-all">soup.dev</a>
+            </h1>
+            <p class="mb-6 text-lg lg:text-xl font-normal text-gray-800 dark:text-gray-200 text-center">
+                ghTraffic allows you to view aggregated traffic information <br class="hidden sm:block" /> from multiple
+                GitHub repositories.
+            </p>
+            <p class="mb-6 mt-10 text-md lg:text-lg font-normal text-gray-600 dark:text-gray-300 text-center">
+                To get started, login with your GitHub account:
+            </p>
+            <a href="{{ login_uri.as_ref().unwrap() }}"
+                class="bg-green-500 hover:bg-green-700 dark:bg-green-600 text-xl text-white font-semibold py-2 px-4 rounded font-sans transition-all">Login
+                with GitHub</a>
+            <p class="mt-10 text-sm font-normal text-gray-500 dark:text-gray-300 text-center">
+                This is an open-source project.<br />Consider supporting it on
+                <a href="https://buymeacoffee.com/mirch"
+                    class="text-yellow-600 no-underline hover:text-opacity-80">buymeacoffee.com</a>
+            </p>
+        </div>
     {% endif %}
 
     <div class="sticky top-full">
