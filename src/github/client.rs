@@ -38,8 +38,14 @@ impl GithubClient {
     }
 
     #[tracing::instrument]
-    pub fn get_login_uri(&self) -> String {
-        "https://github.com/apps/ghtraffic/installations/select_target".to_string()
+    pub fn get_login_uri(&self) -> Result<String, GithubError> {
+        let client_id = std::env::var(GITHUB_CLIENT_ID)?;
+
+        let url = format!(
+            "{}/login/oauth/authorize?client_id={}",
+            self.auth_base_uri, client_id
+        );
+        Ok(url)
     }
 
     #[tracing::instrument]

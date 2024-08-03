@@ -1,15 +1,8 @@
-<div class="flex flex-col items-center px-4 md:px-36 lg:px-60 w-full h-auto">
-    <p class="mb-6 text-lg lg:text-xl font-normal text-gray-800 dark:text-gray-200 text-center">
-        Use the Configure button to select more organizations to install the app in.
-    </p>
-</div>
 <div class="grid sm:grid-cols-2 grid-rows-2 gap-4 px-4 mb-4 w-full sm:h-80 dark:text-gray-200 text-gray-800">
     <div class="bg-gray-200 dark:bg-neutral-900 bg-opacity-70 rounded-md sm:h-80 h-60">
         <form id="repos_form" class="overflow-y-scroll p-4 sm:h-80 h-60" hx-get="/repo" hx-target="#repo_info"
             hx-trigger="change">
             <h3 class="font-medium mb-4 ">Select Repositories</h3>
-            <a href="https://github.com/apps/ghtraffic/installations/select_target"
-                class="bg-green-500 hover:bg-green-700 dark:bg-green-600 text-white font-semibold py-2 px-4 rounded font-sans transition-all">Configure</a>
             {% for repo in repositories %}
             <div class="border-b border-gray-300 dark:border-neutral-800 mb-3 p-1">
                 <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"
@@ -42,4 +35,9 @@
             </table>
         </div>
     </div>
+</div>
+<div class="flex flex-col items-center px-4 md:px-36 lg:px-60 w-full h-auto">
+    <p class="mb-6 lg:text-xl font-normal text-gray-600 dark:text-gray-200 text-center">
+        First, <a href="https://github.com/apps/ghtraffic/installations/select_target">Configure</a> which account/organization repos <b>ghTraffic</b> has access to.
+    </p>
 </div>
