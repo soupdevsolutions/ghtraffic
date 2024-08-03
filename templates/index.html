@@ -3,10 +3,29 @@
 
 <head>
     <title>ghTraffic by soup.dev</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/htmx.org@1.9.8"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="https://res.cloudinary.com/dglphhsmw/image/upload/v1722076198/ghtraffic/wb7utofspcgi5do0lm8o.png" type="image/icon type" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #8282825b;
+            border-radius: 4px;
+        }
+    </style>
+
     <script>
         tailwind.config = {
+            darkMode: 'selector',
             theme: {
                 extend: {
                     colors: {
@@ -16,36 +35,82 @@
             }
         }
     </script>
+    <script>
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.getElementById('root').classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.getElementById('root').classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) {
+                setTheme(storedTheme);
+            } else {
+                setTheme('light'); // Default to light if no preference is saved
+            }
+
+            // Add event listener for the theme toggle button
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            themeToggleBtn.addEventListener('click', () => {
+                const isDarkMode = document.getElementById('root').classList.contains('dark');
+                setTheme(isDarkMode ? 'light' : 'dark');
+            });
+        });
+    </script>
+
 </head>
 
-<body class="h-screen mx-auto bg-slate-100 font-mono">
-    <nav class="bg-gray-300 mb-2 p-2 pl-10">
-        <h1 class="text-3xl"><a href="/">ghTraffic</a></h1>
+<body id="root" class="h-dvh bg-gray-50 dark:bg-neutral-950" style="font-family: Ubuntu, monospace;">
+    <nav class="h-16 mb-10 p-1 px-10 flex items-center justify-between bg-gray-50 dark:bg-neutral-950">
+        <a href="/" class=" flex items-center gap-2">
+            <img src="https://res.cloudinary.com/dglphhsmw/image/upload/v1722076198/ghtraffic/wb7utofspcgi5do0lm8o.png" class="h-9 w-auto" alt="ghtraffic" />
+            <div class="font-medium text-slate-800 text-2xl tracking-tighter dark:text-slate-200">
+                ghTraffic
+            </div>
+        </a>
+        <button type="button" id="theme-toggle">
+            <img src="https://res.cloudinary.com/dglphhsmw/image/upload/v1722076296/ghtraffic/mekhpomtvkvhroqfe8ef.png" class="h-9 w-auto bg-gray-50 rounded-full" alt="theme switch" />
+        </button>
     </nav>
     {% if authenticated %}
-        <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
+    <div id="content" class="container mx-auto flex-auto" hx-trigger="load" hx-get="/repos"></div>
     {% else %}
-        <div class="flex flex-col items-center">
-            <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-                ghTraffic by <a href="https://soup.dev" class="no-underline hover:underline hover:text-black">soup.dev</a>
-            </h1>
-            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
-                ghTraffic allows you to view aggregated traffic information from multiple GitHub repositories.
-            </p>
-            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
-                This is an open-source project. Consider supporting it on 
-                <a href="https://buymeacoffee.com/mirch" class="no-underline hover:underline hover:text-black">buymeacoffee.com</a>.
-            </p>
-            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
-                To get started, login with your GitHub account:
-            </p>
-            <a href="{{ login_uri.as_ref().unwrap() }}" class="bg-green-500 hover:bg-green-700 text-xl text-white font-bold py-2 px-4 rounded">Login with GitHub</a>
-        </div>
+    <div class="flex flex-col items-center px-4 md:px-36 lg:px-60 w-full h-auto">
+        <h1
+            class="mb-10 md:text-4xl text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl dark:text-gray-100 text-center">
+            <span class="">
+                ghTraffic
+            </span>by <a href="https://soup.dev"
+                class="bg-gradient-to-r from-green-600 to-green-500 text-transparent bg-clip-text hover:bg-transparent hover:text-pink-600 transition-all">soup.dev</a>
+        </h1>
+        <p class="mb-6 text-lg lg:text-xl font-normal text-gray-800 dark:text-gray-200 text-center">
+            ghTraffic allows you to view aggregated traffic information <br class="hidden sm:block" /> from multiple
+            GitHub repositories.
+        </p>
+        <p class="mb-6 mt-10 text-md lg:text-lg font-normal text-gray-600 dark:text-gray-300 text-center">
+            To get started, login with your GitHub account:
+        </p>
+        <a href="{{ login_uri.as_ref().unwrap() }}"
+            class="bg-green-500 hover:bg-green-700 dark:bg-green-600 text-xl text-white font-semibold py-2 px-4 rounded font-sans transition-all">Login
+            with GitHub</a>
+        <p class="mt-10 text-sm font-normal text-gray-500 dark:text-gray-300 text-center">
+            This is an open-source project.<br />Consider supporting it on
+            <a href="https://buymeacoffee.com/mirch"
+                class="text-yellow-600 no-underline hover:text-opacity-80">buymeacoffee.com</a>
+        </p>
+    </div>
     {% endif %}
 
     <div class="sticky top-full">
-        <footer class="bg-gray-300 p-2 pl-10 flex flex-col items-center">
-            <p>&copy; 2024 <a href="https://soup.dev" class="no-underline hover:underline hover:text-white">soup.dev</a></p>
+        <footer class="flex items-center justify-center pb-2 text-gray-400">
+            <p>&copy; 2024 <a href="https://soup.dev"
+                    class="no-underline hover:text-black dark:hover:text-white">soup.dev</a>
+            </p>
         </footer>
     </div>
 </body>

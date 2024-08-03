@@ -1,31 +1,38 @@
-<div class="grid grid-cols-2 gap-4">
-    <div class="w-full">
-        <form id="repos_form" class="bg-gray-300 w-full h-64 overflow-y-scroll" hx-get="/repo" hx-target="#repo_info" hx-trigger="change">
+<div class="grid sm:grid-cols-2 grid-rows-2 gap-4 px-4 mb-4 w-full sm:h-80 dark:text-gray-200 text-gray-800">
+    <div class="bg-gray-200 dark:bg-neutral-900 bg-opacity-70 rounded-md sm:h-80 h-60">
+        <form id="repos_form" class="overflow-y-scroll p-4 sm:h-80 h-60" hx-get="/repo" hx-target="#repo_info"
+            hx-trigger="change">
+            <h3 class="font-medium mb-4 ">Select Repositories</h3>
             {% for repo in repositories %}
-                <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"> 
-                <label for="repo_{{ repo.id }}">{{ repo.full_name }}</label> <br/>
-                <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
+            <div class="border-b border-gray-300 dark:border-neutral-800 mb-3 p-1">
+                <input id="repo_{{ repo.id }}" type="checkbox" value="{{ repo.full_name }}" name="repo_name"
+                    class="appearance-none checked:bg-blue-500 peer">
+                <label for="repo_{{ repo.id }}"
+                    class="cursor-pointer peer-checked:bg-blue-800 peer-checked:text-white hover:text-blue-800 dark:hover:text-blue-300 py-1 px-2 rounded-sm select-none">
+                    <span>{{ repo.full_name }}</span>
+                </label>
+            </div>
             {% endfor %}
         </form>
     </div>
-    <div class="w-full bg-gray-400">
-        <div id="repo_info" class="container mx-auto flex-auto">
-        <table class="border border-collapse border-slate-400 table-auto">
-            <thead>
-                <tr>
-                    <th> Referrer </th>
-                    <th> Views </th>
-                    <th> Unique Visitors </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td> </td>
-                    <td> </td>
-                    <td> </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="bg-gray-200 dark:bg-neutral-900 bg-opacity-70 rounded-md sm:h-80 h-60">
+        <div id="repo_info" class="container mx-auto flex flex-col p-4 overflow-y-scroll sm:h-80 h-60">
+            <table class="table-auto text-left border-spacing-y-1 border border-separate border-transparent">
+                <thead class="mb-2">
+                    <tr>
+                        <th> Referrer </th>
+                        <th> Views </th>
+                        <th> Unique Visitors </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
