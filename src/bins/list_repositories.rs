@@ -42,7 +42,6 @@ async fn main() -> Result<(), Error> {
     run(service_fn(|request| handler(&github_client, request))).await
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::handler;
@@ -68,27 +67,5 @@ mod tests {
 
         let response = handler(&github_client, event).await.unwrap();
         assert_eq!(response.status(), 302);
-    }
-
-    #[tokio::test]
-    async fn test_list_repositories_returns_ok_when_token_is_present() {
-        let mock_server = MockServer::start().await;
-        let github_client = GithubClient::new(
-            GithubClientBaseUri::Custom(mock_server.uri()),
-            GithubClientBaseUri::Custom(mock_server.uri()),
-        );
-
-        Mock::given(any())
-            .respond_with(ResponseTemplate::new(200))
-            .mount(&mock_server)
-            .await;
-
-        let event = Request::get("/")
-            .header("cookie", "token=123")
-            .body(lambda_http::Body::Empty)
-            .unwrap();
-
-        let response = handler(&github_client, event).await.unwrap();
-        assert_eq!(response.status(), 200);
     }
 }

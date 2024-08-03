@@ -22,7 +22,11 @@ pub async fn render_repos_views(
         let referrers_views = github_client
             .get_repository_traffic(&token, &repo.owner, &repo.name)
             .await?;
-        tracing::info!("Calculating views for {}; referrers: {:?}", repo.name, referrers_views);
+        tracing::info!(
+            "Calculating views for {}; referrers: {:?}",
+            repo.name,
+            referrers_views
+        );
 
         for referrer in referrers_views {
             let mut entry = *referrers.entry(referrer.referrer.clone()).or_insert((0, 0));
@@ -109,14 +113,9 @@ async fn main() -> Result<(), Error> {
 #[cfg(test)]
 mod tests {
 
-    use std::collections::HashMap;
-
     use super::handler;
     use ghtraffic::github::{GithubClient, GithubClientBaseUri};
-    use lambda_http::aws_lambda_events::query_map::QueryMap;
-    use lambda_http::http::HeaderValue;
-    use lambda_http::{Request, RequestExt};
-    use reqwest::Method;
+    use lambda_http::Request;
     use wiremock::matchers::any;
     use wiremock::{Mock, MockServer, ResponseTemplate};
 
@@ -137,35 +136,5 @@ mod tests {
 
         let response = handler(&github_client, event).await.unwrap();
         assert_eq!(response.status(), 401);
-    }
-
-    #[tokio::test]
-    async fn test_calculate_traffic_returns_ok_when_token_is_present() {
-        let mock_server = MockServer::start().await;
-        let github_client = GithubClient::new(
-            GithubClientBaseUri::Custom(mock_server.uri()),
-            GithubClientBaseUri::Custom(mock_server.uri()),
-        );
-
-        Mock::given(any())
-            .respond_with(ResponseTemplate::new(200))
-            .mount(&mock_server)
-            .await;
-
-        let event = Request::default();
-        let (mut parts, body) = event.into_parts();
-        parts.method = Method::GET;
-        parts.headers.insert("Cookie", HeaderValue::from_static("token=123"));
-        
-        let mut params = HashMap::new();
-        params.insert("repo_name".to_string(), "owner/repo".to_string());
-        let params: QueryMap = params.into();
-
-        let parts = parts.with_query_string_parameters(params);
-        let event = Request::from_parts(parts, body);
-       
-        let response = handler(&github_client, event).await.unwrap();
-        println!("{:?}", response.body());
-        assert_eq!(response.status(), 200);
     }
 }

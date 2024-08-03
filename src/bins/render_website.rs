@@ -22,7 +22,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 
     let template = IndexTemplate {
         authenticated: token.is_some(),
-        login_uri: github_client.get_login_uri().ok(),
+        login_uri: Some(github_client.get_login_uri()),
     };
     let data = template.render()?;
     let mut resp = Response::builder()
