@@ -22,7 +22,7 @@ pub async fn render_repos_views(
         let referrers_views = github_client
             .get_repository_traffic(&token, &repo.owner, &repo.name)
             .await?;
-        tracing::info!(
+        tracing::debug!(
             "Calculating views for {}; referrers: {:?}",
             repo.name,
             referrers_views
@@ -56,7 +56,7 @@ pub async fn render_repos_views(
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
-    tracing::info!("Received event: {:?}", event);
+    tracing::debug!("Received event: {:?}", event);
 
     let token = match get_cookie(&event, "token") {
         Some(token) => token,
@@ -70,7 +70,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
 
     let query_string_parameters = event.query_string_parameters();
     let repo_names = query_string_parameters.all("repo_name");
-    tracing::info!("Query string parameters: {:?}", query_string_parameters);
+    tracing::debug!("Query string parameters: {:?}", query_string_parameters);
 
     if repo_names.is_none() {
         return Ok(Response::builder()
@@ -84,7 +84,7 @@ async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result
         let repo = Repository::parse(repo_name)?;
         repos.push(repo);
     }
-    tracing::info!("Repo names: {:?}", repos);
+    tracing::debug!("Repo names: {:?}", repos);
 
     let data = render_repos_views(github_client, token, repos).await?;
     let resp = Response::builder()

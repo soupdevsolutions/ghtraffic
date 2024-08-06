@@ -7,7 +7,7 @@ use lambda_http::{run, service_fn, tracing, Body, Error, Request, RequestExt, Re
 
 #[tracing::instrument]
 async fn handler(github_client: &GithubClient, event: Request) -> anyhow::Result<Response<Body>> {
-    tracing::info!("Received event: {:?}", event);
+    tracing::debug!("Received event: {:?}", event);
 
     let mut token = get_cookie(&event, TOKEN_COOKIE);
     if token.is_none() {
