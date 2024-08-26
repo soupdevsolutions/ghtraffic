@@ -35,5 +35,6 @@ tracing-subscriber = "0.3.18"
 wiremock = "0.6.0"
 
 [profile.ephemeral-build]
+inherits = "release"
 opt-level = 2
 codegen-units = 8
