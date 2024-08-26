@@ -33,3 +33,7 @@ thiserror = "1.0.61"
 tokio = { version = "1", features = ["macros"] }
 tracing-subscriber = "0.3.18"
 wiremock = "0.6.0"
+
+[profile.ephemeral-build]
+opt-level = 2
+codegen-units = 8
