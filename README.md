@@ -32,4 +32,4 @@ Bug reports, as well as feature proposals, are more than welcome. Please create 
 
 If you want to work on a specific issue, just ask :)  
 
-You can also support the project on [buymeacoffee.com](https://www.buymeacoffee.com/mirch).
+You can also support the project on [Noodle](https://grabnoodle.com).
